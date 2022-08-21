@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.extact</groupId>
+		<artifactId>msa-rms-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../msa-rms-parent/pom.xml</relativePath>
+	</parent>
+	<artifactId>msa-rms-platform</artifactId>
+	<packaging>pom</packaging>
+	<name>msa-rms-platform</name>
+	<description>Platform Parent POM</description>
+	<modules>
+		<module>test-lib</module>
+		<module>platform-core</module>
+		<module>platform-fw</module>
+		<module>platform-fw-test-lib</module>
+		<module>report-aggregate</module>
+	</modules>
+</project>

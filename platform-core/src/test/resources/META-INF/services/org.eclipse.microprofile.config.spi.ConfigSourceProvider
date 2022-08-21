@@ -1,0 +1,2 @@
+io.extact.msa.rms.platform.core.config.ExternalPathConfigProvider
+io.extact.msa.rms.platform.core.config.ResourcePathUnderConfigProvider

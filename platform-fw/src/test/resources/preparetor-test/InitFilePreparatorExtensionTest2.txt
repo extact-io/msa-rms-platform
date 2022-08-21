@@ -1,0 +1,2 @@
+InitFilePreparatorExtensionTestのテストファイル
+ファイルがあるかだけで中身は見てないよ！
