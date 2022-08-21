@@ -7,6 +7,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
 
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import io.extact.msa.rms.platform.core.jwt.consumer.Authenticated;
 import io.extact.msa.rms.platform.core.jwt.provider.GenerateToken;
 import io.extact.msa.rms.platform.fw.stub.auth.client_sever1.AuthData;
@@ -17,10 +19,12 @@ import io.extact.msa.rms.platform.fw.stub.auth.client_sever1.ClientServer1Api;
 public class Server1Resource implements ClientServer1Api {
 
     private Server1Assert server1Assert;
+    private Server2ApiRestClient server2Client;
 
     @Inject
-    public Server1Resource(Server1Assert server1Assert) {
+    public Server1Resource(Server1Assert server1Assert, @RestClient Server2ApiRestClient server2Client) {
         this.server1Assert = server1Assert;
+        this.server2Client = server2Client;
     }
 
     @GenerateToken
@@ -35,6 +39,8 @@ public class Server1Resource implements ClientServer1Api {
     @Override
     public boolean memeberApi() {
         server1Assert.doMemberApiAssert();
+        server2Client.memberLoginApi(); // Server2へのREST呼び出し
+        server1Assert.doMemberApiAssert();
         return true;
     }
 
@@ -43,12 +49,15 @@ public class Server1Resource implements ClientServer1Api {
     @Override
     public boolean adminApi() {
         server1Assert.doAdminApiAssert();
+        server2Client.adminLoginApi(); // Server2へのREST呼び出し
+        server1Assert.doAdminApiAssert();
         return true;
     }
 
     @Override
     public boolean guestApi() {
         server1Assert.doGuestApiAssert();
+        server2Client.notLoginApi();
         return true;
     }
 

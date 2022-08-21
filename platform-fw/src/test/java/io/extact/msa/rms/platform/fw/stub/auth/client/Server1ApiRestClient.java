@@ -12,11 +12,12 @@ import io.extact.msa.rms.platform.core.jwt.client.JwtRecieveResponseFilter;
 import io.extact.msa.rms.platform.fw.stub.auth.client_sever1.ClientServer1Api;
 import io.extact.msa.rms.platform.fw.webapi.client.ExceptionPropagateClientMapper;
 
+// test-classesは自動でRestClientインタフェースが検出されないので@AddBeanでインタフェースを登録すること
 @RegisterRestClient(configKey = "web-api")
 @RegisterProvider(RmsTypeParameterFeature.class)
 @RegisterProvider(ExceptionPropagateClientMapper.class)
 @RegisterProvider(JwtRecieveResponseFilter.class)
 @RegisterClientHeaders(JwtPropagateClientHeadersFactory.class)
 @Path("/server1")
-public interface ClientApiRestClient extends ClientServer1Api {
+public interface Server1ApiRestClient extends ClientServer1Api {
 }

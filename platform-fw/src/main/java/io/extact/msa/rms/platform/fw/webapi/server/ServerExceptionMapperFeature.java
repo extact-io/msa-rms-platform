@@ -10,6 +10,7 @@ import io.extact.msa.rms.platform.core.jaxrs.mapper.UnhandledExceptionMapper;
 import io.extact.msa.rms.platform.fw.webapi.server.ServerExceptionMappers.BusinessFlowExceptionMapper;
 import io.extact.msa.rms.platform.fw.webapi.server.ServerExceptionMappers.ConstraintExceptionMapper;
 import io.extact.msa.rms.platform.fw.webapi.server.ServerExceptionMappers.RmsSystemExceptionMapper;
+import io.extact.msa.rms.platform.fw.webapi.server.ServerExceptionMappers.SecurityConstraintExceptionMapper;
 
 @ConstrainedTo(RuntimeType.SERVER)
 public class ServerExceptionMapperFeature implements Feature {
@@ -19,6 +20,7 @@ public class ServerExceptionMapperFeature implements Feature {
         context.register(BusinessFlowExceptionMapper.class);
         context.register(RmsSystemExceptionMapper.class);
         context.register(ConstraintExceptionMapper.class);
+        context.register(SecurityConstraintExceptionMapper.class);
         context.register(PageNotFoundExceptionMapper.class);
         context.register(UnhandledExceptionMapper.class);
         return true;
