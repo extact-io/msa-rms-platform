@@ -30,7 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import io.extact.msa.rms.platform.core.jwt.JsonWebTokenFilterTest.TestUserClaims;
 import io.extact.msa.rms.platform.core.jwt.JwtSecurityFilterFeature;
 import io.extact.msa.rms.platform.core.jwt.consumer.Authenticated;
-import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4PrivateSecretedTokenValidator;
+import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4jPrivateSecretedTokenValidator;
 import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4jJwtGenerator;
 import io.extact.msa.rms.platform.core.jwt.provider.GenerateToken;
 import io.extact.msa.rms.platform.core.jwtrole.JwtRoleSecurityFilterIntegrationTest.JwtRoleTestApplication;
@@ -44,7 +44,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 @AddConfig(key = "server.port", value = "7001")
 @AddBean(JwtRoleTestApplication.class)
 @AddBean(Jose4jJwtGenerator.class)
-@AddBean(Jose4PrivateSecretedTokenValidator.class)
+@AddBean(Jose4jPrivateSecretedTokenValidator.class)
 @ExtendWith(JulToSLF4DelegateExtension.class)
 class JwtRoleSecurityFilterIntegrationTest {
 

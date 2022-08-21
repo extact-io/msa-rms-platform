@@ -1,4 +1,4 @@
-package io.extact.msa.rms.platform.fw.stub.application.client.external.restclient;
+package io.extact.msa.rms.platform.fw.stub.auth.client;
 
 import javax.ws.rs.Path;
 
@@ -7,14 +7,16 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import io.extact.msa.rms.platform.core.jaxrs.converter.RmsTypeParameterFeature;
-import io.extact.msa.rms.platform.core.jwt.client.PropagateLoginClientHeadersFactory;
-import io.extact.msa.rms.platform.fw.stub.application.common.ClientServerPersonApi;
+import io.extact.msa.rms.platform.core.jwt.client.JwtPropagateClientHeadersFactory;
+import io.extact.msa.rms.platform.core.jwt.client.JwtRecieveResponseFilter;
+import io.extact.msa.rms.platform.fw.stub.auth.client_sever1.ClientServer1Api;
 import io.extact.msa.rms.platform.fw.webapi.client.ExceptionPropagateClientMapper;
 
 @RegisterRestClient(configKey = "web-api")
 @RegisterProvider(RmsTypeParameterFeature.class)
 @RegisterProvider(ExceptionPropagateClientMapper.class)
-@RegisterClientHeaders(PropagateLoginClientHeadersFactory.class)
-@Path("/persons")
-public interface PersonApiRestClient extends ClientServerPersonApi {
+@RegisterProvider(JwtRecieveResponseFilter.class)
+@RegisterClientHeaders(JwtPropagateClientHeadersFactory.class)
+@Path("/server1")
+public interface ClientApiRestClient extends ClientServer1Api {
 }

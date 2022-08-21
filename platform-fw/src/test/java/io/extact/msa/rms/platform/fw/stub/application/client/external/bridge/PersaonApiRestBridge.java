@@ -10,8 +10,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import io.extact.msa.rms.platform.fw.stub.application.client.external.PersonApi;
 import io.extact.msa.rms.platform.fw.stub.application.client.external.restclient.PersonApiRestClient;
-import io.extact.msa.rms.platform.fw.stub.application.server.webapi.dto.AddPersonEventDto;
-import io.extact.msa.rms.platform.fw.stub.application.server.webapi.dto.PersonResourceDto;
+import io.extact.msa.rms.platform.fw.stub.application.common.dto.AddPersonEventDto;
+import io.extact.msa.rms.platform.fw.stub.application.common.dto.PersonResourceDto;
 
 @ApplicationScoped
 public class PersaonApiRestBridge implements PersonApi {

@@ -24,12 +24,12 @@ import io.extact.msa.rms.platform.core.jwt.consumer.JsonWebTokenValidator;
  * 秘密鍵で署名されたTokenの検証クラス。
  */
 @ConfiguableScoped
-public class Jose4PrivateSecretedTokenValidator implements JsonWebTokenValidator {
+public class Jose4jPrivateSecretedTokenValidator implements JsonWebTokenValidator {
 
     private JwtConfig jwtConfig;
 
     @Inject
-    public Jose4PrivateSecretedTokenValidator(Config config) {
+    public Jose4jPrivateSecretedTokenValidator(Config config) {
         this.jwtConfig = JwtConfig.of(config);
     }
 

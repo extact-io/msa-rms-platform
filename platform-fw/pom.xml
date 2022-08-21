@@ -206,6 +206,18 @@
 			<artifactId>jersey-media-json-binding</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- for jwt auth runtime -->
+		<dependency>
+			<groupId>javax.security.enterprise</groupId>
+			<artifactId>javax.security.enterprise-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bitbucket.b_c</groupId>
+			<artifactId>jose4j</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -2,43 +2,57 @@ package io.extact.msa.rms.platform.fw.stub.application.server.webapi;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
-import io.extact.msa.rms.platform.fw.domain.constraint.RmsId;
-import io.extact.msa.rms.platform.fw.stub.application.server.webapi.dto.AddPersonEventDto;
-import io.extact.msa.rms.platform.fw.stub.application.server.webapi.dto.PersonResourceDto;
+import io.extact.msa.rms.platform.core.validate.ValidateParam;
+import io.extact.msa.rms.platform.fw.stub.application.common.ClientServerPersonApi;
+import io.extact.msa.rms.platform.fw.stub.application.common.dto.AddPersonEventDto;
+import io.extact.msa.rms.platform.fw.stub.application.common.dto.PersonResourceDto;
+import io.extact.msa.rms.platform.fw.stub.application.server.service.PersonService;
 
-public interface PersonResource {
+@Path("/persons")
+@ApplicationScoped
+@ValidateParam
+public class PersonResource implements ClientServerPersonApi {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    List<PersonResourceDto> getAll();
+    private PersonService service;
 
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    PersonResourceDto get(@RmsId @PathParam("id") Integer id);
+    @Inject
+    public PersonResource(PersonService service) {
+        this.service = service;
+    }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    PersonResourceDto add(@Valid AddPersonEventDto dto);
+    @Override
+    public List<PersonResourceDto> getAll() {
+        return service.findAll().stream()
+                .map(PersonResourceDto::from)
+                .toList();
+    }
 
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    PersonResourceDto update(@Valid PersonResourceDto dto);
+    @Override
+    public PersonResourceDto get(Integer itemId) {
+        return service.get(itemId)
+                .map(PersonResourceDto::from)
+                .orElse(null);
+    }
 
-    @DELETE
-    @Path("/{id}")
-    void delete(@RmsId @PathParam("id") Integer itemId);
+    @Override
+    public PersonResourceDto add(@Valid AddPersonEventDto dto) {
+        return service.add(dto.toEntity())
+                .transform(PersonResourceDto::from);
+    }
+
+    @Override
+    public PersonResourceDto update(@Valid PersonResourceDto dto) {
+        return service.update(dto.toEntity())
+                .transform(PersonResourceDto::from);
+    }
+
+    @Override
+    public void delete(Integer itemId) {
+        service.delete(itemId);
+    }
 }

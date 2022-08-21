@@ -14,7 +14,7 @@ public class PersonApplication extends RmsApplication {
     protected Set<Class<?>> getWebApiClasses() {
         return Set.of(
                     PropagatedLoginHeaderRequestFilter.class,
-                    PersonResourceImpl.class
+                    PersonResource.class
                 );
     }
 }

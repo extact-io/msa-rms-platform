@@ -1,6 +1,5 @@
-package io.extact.msa.rms.platform.core.jwt.login;
+package io.extact.msa.rms.platform.core.jwt.client;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ConstrainedTo;
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -8,7 +7,10 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
-@ApplicationScoped
+import io.extact.msa.rms.platform.core.extension.ConfiguableScoped;
+import io.extact.msa.rms.platform.core.jwt.login.LoginUserUtils;
+
+@ConfiguableScoped
 @ConstrainedTo(RuntimeType.CLIENT)
 public class PropagateLoginClientHeadersFactory implements ClientHeadersFactory {
 

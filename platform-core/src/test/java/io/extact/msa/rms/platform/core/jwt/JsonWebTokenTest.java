@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.extact.msa.rms.platform.core.jwt.consumer.JsonWebTokenValidator;
-import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4PrivateSecretedTokenValidator;
+import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4jPrivateSecretedTokenValidator;
 import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4jJwtGenerator;
 import io.extact.msa.rms.platform.core.jwt.provider.JsonWebTokenGenerator;
 import io.extact.msa.rms.platform.core.jwt.provider.UserClaims;
@@ -46,7 +46,7 @@ class JsonWebTokenTest {
         String token = generator.generateToken(userClaims);
 
         // 生成したTokenを検査
-        JsonWebTokenValidator validator = new Jose4PrivateSecretedTokenValidator(mapConfig);
+        JsonWebTokenValidator validator = new Jose4jPrivateSecretedTokenValidator(mapConfig);
         JsonWebToken jwt = validator.validate(token);
 
         // 復元したJSONが元通りか確認
@@ -76,7 +76,7 @@ class JsonWebTokenTest {
         UserClaims userClaims = new SimpleUserClaims();
         String token = generator.generateToken(userClaims);
 
-        JsonWebTokenValidator validator = new Jose4PrivateSecretedTokenValidator(mapConfig);
+        JsonWebTokenValidator validator = new Jose4jPrivateSecretedTokenValidator(mapConfig);
         JwtValidateException actual = catchThrowableOfType(() ->
             validator.validate(token),
             JwtValidateException.class
@@ -94,7 +94,7 @@ class JsonWebTokenTest {
         String invalidToken = token + "a"; // Tokenを改ざん
 
         // 生成したTokenを検査
-        JsonWebTokenValidator validator = new Jose4PrivateSecretedTokenValidator(mapConfig);
+        JsonWebTokenValidator validator = new Jose4jPrivateSecretedTokenValidator(mapConfig);
         JwtValidateException actual = catchThrowableOfType(() ->
             validator.validate(invalidToken),
             JwtValidateException.class

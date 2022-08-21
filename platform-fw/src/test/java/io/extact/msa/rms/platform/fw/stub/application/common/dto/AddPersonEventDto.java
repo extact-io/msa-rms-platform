@@ -1,4 +1,4 @@
-package io.extact.msa.rms.platform.fw.stub.application.server.webapi.dto;
+package io.extact.msa.rms.platform.fw.stub.application.common.dto;
 
 import io.extact.msa.rms.platform.fw.stub.application.server.domain.Person;
 import io.extact.msa.rms.platform.fw.stub.application.server.domain.PersonName;
