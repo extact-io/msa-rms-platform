@@ -1,9 +1,9 @@
 package io.extact.msa.rms.platform.fw.webapi.server;
 
-import javax.ws.rs.ConstrainedTo;
-import javax.ws.rs.RuntimeType;
-import javax.ws.rs.core.Feature;
-import javax.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.ConstrainedTo;
+import jakarta.ws.rs.RuntimeType;
+import jakarta.ws.rs.core.Feature;
+import jakarta.ws.rs.core.FeatureContext;
 
 import io.extact.msa.rms.platform.core.jaxrs.mapper.PageNotFoundExceptionMapper;
 import io.extact.msa.rms.platform.core.jaxrs.mapper.UnhandledExceptionMapper;

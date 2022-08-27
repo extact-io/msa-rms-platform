@@ -2,8 +2,8 @@ package io.extact.msa.rms.platform.fw.persistence.file.producer;
 
 import java.nio.file.Path;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
 

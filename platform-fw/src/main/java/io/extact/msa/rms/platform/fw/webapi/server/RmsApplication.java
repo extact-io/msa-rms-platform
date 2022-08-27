@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
 
 import io.extact.msa.rms.platform.core.debug.ServerHeaderDumpFilter;
 import io.extact.msa.rms.platform.core.jaxrs.converter.RmsTypeParameterFeature;

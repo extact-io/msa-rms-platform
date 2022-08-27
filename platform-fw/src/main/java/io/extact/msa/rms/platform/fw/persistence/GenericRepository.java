@@ -2,7 +2,7 @@ package io.extact.msa.rms.platform.fw.persistence;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import io.extact.msa.rms.platform.core.validate.ValidateParam;
 

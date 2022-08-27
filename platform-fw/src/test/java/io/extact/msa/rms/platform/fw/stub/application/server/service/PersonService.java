@@ -2,10 +2,10 @@ package io.extact.msa.rms.platform.fw.stub.application.server.service;
 
 import java.util.function.Consumer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 import org.apache.commons.lang3.StringUtils;
 

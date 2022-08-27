@@ -2,7 +2,7 @@ package io.extact.msa.rms.platform.core.jwt.consumer;
 
 import java.security.Principal;
 
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.SecurityContext;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 

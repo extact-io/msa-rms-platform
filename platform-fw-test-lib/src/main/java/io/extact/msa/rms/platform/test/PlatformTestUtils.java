@@ -9,9 +9,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-import javax.validation.ConstraintViolationException;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response.Status;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

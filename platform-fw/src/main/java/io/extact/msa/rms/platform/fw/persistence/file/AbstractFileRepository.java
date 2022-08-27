@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import io.extact.msa.rms.platform.fw.domain.IdProperty;
 import io.extact.msa.rms.platform.fw.domain.Transformable;

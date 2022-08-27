@@ -184,11 +184,6 @@
 
 		<!-- for BeanValidation runtimes -->
 		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-bean-validation</artifactId>
 			<scope>test</scope>
@@ -209,8 +204,8 @@
 
 		<!-- for jwt auth runtime -->
 		<dependency>
-			<groupId>javax.security.enterprise</groupId>
-			<artifactId>javax.security.enterprise-api</artifactId>
+			<groupId>jakarta.security.enterprise</groupId>
+			<artifactId>jakarta.security.enterprise-api</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

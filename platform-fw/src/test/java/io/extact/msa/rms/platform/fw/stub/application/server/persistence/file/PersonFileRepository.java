@@ -1,7 +1,7 @@
 package io.extact.msa.rms.platform.fw.stub.application.server.persistence.file;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import io.extact.msa.rms.platform.core.extension.EnabledIfRuntimeConfig;
 import io.extact.msa.rms.platform.fw.persistence.GenericRepository.ApiType;

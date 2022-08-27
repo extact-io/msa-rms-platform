@@ -1,8 +1,8 @@
 package io.extact.msa.rms.platform.fw.stub.auth.server2;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.Path;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Path;
 
 import io.extact.msa.rms.platform.fw.stub.auth.server1_server2.ClientServer2Api;
 

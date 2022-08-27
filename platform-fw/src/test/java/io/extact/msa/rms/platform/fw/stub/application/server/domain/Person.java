@@ -1,12 +1,12 @@
 package io.extact.msa.rms.platform.fw.stub.application.server.domain;
 
-import static javax.persistence.AccessType.*;
+import static jakarta.persistence.AccessType.*;
 
-import javax.persistence.Access;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Access;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import io.extact.msa.rms.platform.fw.domain.IdProperty;
 import io.extact.msa.rms.platform.fw.domain.Transformable;

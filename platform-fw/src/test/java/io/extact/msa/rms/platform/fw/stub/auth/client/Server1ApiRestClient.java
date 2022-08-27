@@ -1,6 +1,6 @@
 package io.extact.msa.rms.platform.fw.stub.auth.client;
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;

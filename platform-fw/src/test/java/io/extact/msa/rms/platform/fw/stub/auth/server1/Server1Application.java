@@ -2,7 +2,7 @@ package io.extact.msa.rms.platform.fw.stub.auth.server1;
 
 import java.util.Set;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import io.extact.msa.rms.platform.core.jwt.JwtSecurityFilterFeature;
 import io.extact.msa.rms.platform.core.jwt.login.LoginUserRequestFilter;

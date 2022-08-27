@@ -3,8 +3,6 @@ package io.extact.msa.rms.platform.fw.it;
 import static io.extact.msa.rms.test.assertj.ToStringAssert.*;
 import static org.assertj.core.api.Assertions.*;
 
-import javax.inject.Inject;
-
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -29,6 +27,7 @@ import io.extact.msa.rms.test.junit5.JulToSLF4DelegateExtension;
 import io.helidon.microprofile.tests.junit5.AddBean;
 import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
+import jakarta.inject.Inject;
 
 /**
  * スタブのPersonアプリを使ってplatform.fwクラスをテストする。
@@ -58,6 +57,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 @AddBean(PersonApiRestClient.class)
 @AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.core.jwt.client.PropagateLoginClientHeadersFactory")
 @AddConfig(key = "web-api/mp-rest/url", value = "http://localhost:7001") // for REST Client
+//for common
 @ExtendWith(JulToSLF4DelegateExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 abstract class AbstractApplicationIntegrationTest {
