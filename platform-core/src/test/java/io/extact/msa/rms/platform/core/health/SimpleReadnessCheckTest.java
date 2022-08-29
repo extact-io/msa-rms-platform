@@ -1,5 +1,8 @@
 package io.extact.msa.rms.platform.core.health;
 
+import static org.assertj.core.api.Assertions.*;
+
+import org.eclipse.microprofile.health.HealthCheckResponse.Status;
 import org.glassfish.jersey.ext.cdi1x.internal.CdiComponentProvider;
 import org.glassfish.jersey.microprofile.restclient.RestClientExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +51,6 @@ class SimpleReadnessCheckTest {
     @Test
     void testProbeReadness() {
         var checkResponse = client.probeReadness();
-        System.out.println(checkResponse);
+        assertThat(checkResponse.getStatus()).isEqualTo(Status.UP.name());
     }
 }
