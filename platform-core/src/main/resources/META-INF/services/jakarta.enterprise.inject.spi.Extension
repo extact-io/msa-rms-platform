@@ -1,2 +1,2 @@
 io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtension
-
+io.extact.msa.rms.platform.core.health.HealthCheckRegisterExtension

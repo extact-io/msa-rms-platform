@@ -4,14 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.net.URI;
 
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.glassfish.jersey.ext.cdi1x.internal.CdiComponentProvider;
 import org.glassfish.jersey.microprofile.restclient.RestClientExtension;
@@ -29,6 +21,13 @@ import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.AddExtension;
 import io.helidon.microprofile.tests.junit5.DisableDiscovery;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
 
 @HelidonTest(resetPerTest = true)
 @DisableDiscovery
@@ -40,9 +39,10 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 @ExtendWith(JulToSLF4DelegateExtension.class)
 @AddConfig(key = "server.port", value = "7001")
 // ---- following specific parts
+@AddConfig(key = "healthCheck.memoryHealth.enable", value = "on")
 @AddExtension(HealthCdiExtension.class)
-@AddBean(MemoryHealthCheck.class)
-@AddBean(MemoryEvaluateResource.class)
+@AddExtension(HealthCheckRegisterExtension.class)
+@AddBean(MemoryHealthCheckConfig.class)
 class MemoryHealthCheckTest {
 
     private HealthEndPoint endPoint;
@@ -103,8 +103,8 @@ class MemoryHealthCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.memoryLiveness.method", value = "abs")
-    @AddConfig(key = "healthCheck.memoryLiveness.threshold", value = "100000")
+    @AddConfig(key = "healthCheck.memoryHealth.memoryLiveness.method", value = "abs")
+    @AddConfig(key = "healthCheck.memoryHealth.memoryLiveness.threshold", value = "100000")
     void testResetEvaluateMethod() {
 
         JsonObject root = endPoint.getLiveness();

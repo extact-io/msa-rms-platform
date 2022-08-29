@@ -5,37 +5,29 @@ import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.function.BiFunction;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Liveness;
 import org.eclipse.microprofile.health.Readiness;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 
-@ApplicationScoped
+// Bean registered by HealthCheckRegisterExtensions
 @Slf4j
 public class MemoryHealthCheck {
 
-    private String livenessName;
-    private String readinessName;
+    private MemoryHealthCheckConfig config;
     private MemoryLivenessEvaluator evaluator;
     private MemoryMXBean mbean;
 
     @Inject
-    public MemoryHealthCheck(
-            @ConfigProperty(name="healthCheck.memoryLiveness.name") String livenessName,
-            @ConfigProperty(name="healthCheck.memoryReadiness.name") String readinessName,
-            @ConfigProperty(name="healthCheck.memoryLiveness.method") String defaultMethod,
-            @ConfigProperty(name="healthCheck.memoryLiveness.threshold") long defaultThreshold
-        ) {
-        this.livenessName = livenessName;
-        this.readinessName = readinessName;
-        this.evaluator = MemoryLivenessEvaluator.of(defaultMethod, defaultThreshold);
+    public MemoryHealthCheck(@ConfigProperties MemoryHealthCheckConfig config) {
+        this.config = config;
+        this.evaluator = MemoryLivenessEvaluator.of(config.getLivenessMethod(), config.getLivenessThreshold());
         this.mbean = ManagementFactory.getMemoryMXBean();
     }
 
@@ -46,7 +38,7 @@ public class MemoryHealthCheck {
             MemoryUsage memoryUsage = mbean.getHeapMemoryUsage();
             log.info("MemoryUsage:" + memoryUsage);
             return  HealthCheckResponse
-                .named(livenessName)
+                .named(config.getLivenessName())
                 .withData("init", memoryUsage.getInit() / (1024 * 1024)) // MByte
                 .withData("used", memoryUsage.getUsed() / (1024 * 1024)) // MByte
                 .withData("max", memoryUsage.getMax() / (1024 * 1024))   // MByte
@@ -61,7 +53,7 @@ public class MemoryHealthCheck {
     @Readiness
     public HealthCheck checkReadiness() {
         // since no memory viewpoint, unconditionally returns up.
-        return () -> HealthCheckResponse.named(readinessName).up().build();
+        return () -> HealthCheckResponse.named(config.getReadnessName()).up().build();
     }
 
     // ----------------------------------------------------- observe method
