@@ -41,11 +41,11 @@ public class RestServerReadnessCheck {
 
             boolean hasError = results.stream().anyMatch(CheckResult::isDown);
 
-            var response = HealthCheckResponse.named(this.getClass().getSimpleName()).status(!hasError);
+            var responseBuilder = HealthCheckResponse.named(this.getClass().getSimpleName()).status(!hasError);
             results.forEach(result -> {
-                response.withData(result.probeUrl(), result.checkResponse().getStatus());
+                responseBuilder.withData(result.probeUrl(), result.checkResponse().getStatus());
             });
-            return response.build();
+            return responseBuilder.build();
         };
     }
 

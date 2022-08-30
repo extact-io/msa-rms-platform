@@ -35,12 +35,8 @@ healthCheck:
   otherChecks:
     #- io.extact.msa.rms.platform.core.health.SimpleReadnessCheck
     #- io.extact.msa.rms.platform.core.health.RestServerReadnessCheck
-
-#restServerReadnessCheck:
-#  probe.url:
-#    - aa
-#    - bb
-#    - cc
+    #- io.extact.msa.rms.platform.core.health.DbReadnessCheck
+  #dbReadnessCheck.pingSql: "SELECT 1"
 
 
 exception.mapper.unhandle.404:

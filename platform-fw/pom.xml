@@ -129,7 +129,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- for JTA runtimes -->
+		<!-- for JTA/JPA runtimes -->
 		<dependency>
 			<groupId>io.helidon.integrations.cdi</groupId>
 			<artifactId>helidon-integrations-cdi-jta-weld</artifactId>
