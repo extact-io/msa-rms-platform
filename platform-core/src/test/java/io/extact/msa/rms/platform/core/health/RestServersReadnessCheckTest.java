@@ -8,16 +8,19 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import org.eclipse.microprofile.health.HealthCheckResponse.Status;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.glassfish.jersey.ext.cdi1x.internal.CdiComponentProvider;
 import org.glassfish.jersey.microprofile.restclient.RestClientExtension;
+import org.jboss.weld.exceptions.UnsupportedOperationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.extact.msa.rms.platform.core.health.RestServerReadnessCheckTest.ReadnessCheckRestClientFactoryStub;
+import io.extact.msa.rms.platform.core.health.RestServersReadnessCheckTest.ReadnessCheckRestClientFactoryStub;
 import io.extact.msa.rms.platform.core.health.client.GenericCheckResponse;
 import io.extact.msa.rms.platform.core.health.client.ReadnessCheckRestClient;
 import io.extact.msa.rms.platform.core.health.client.ReadnessCheckRestClientFactory;
@@ -34,6 +37,15 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 import jakarta.enterprise.context.Dependent;
 import jakarta.ws.rs.WebApplicationException;
 
+/**
+ * ネットワーク越しにApplicaitonResouceをテストするテストケース。
+ * <pre>
+ * ・テストドライバ：RestClient(ReadnessCheckRestClient)
+ *     ↓ HTTP(7001)
+ * ・実物：MicroProfile Health(RestServersReadnessCheck)
+ * ・スタブ：RestResource(ReadnessCheckRestClientFactoryStub)
+ * </pre>
+ */
 @HelidonTest(resetPerTest = true)
 @DisableDiscovery
 @AddExtension(ServerCdiExtension.class)
@@ -45,9 +57,9 @@ import jakarta.ws.rs.WebApplicationException;
 @AddConfig(key = "server.port", value = "7001")
 // ---- following specific parts
 @AddExtension(HealthCdiExtension.class)
-@AddBean(RestServerReadnessCheck.class)
+@AddBean(RestServersReadnessCheck.class)
 @AddBean(value = ReadnessCheckRestClientFactoryStub.class, scope = Dependent.class)
-class RestServerReadnessCheckTest {
+class RestServersReadnessCheckTest {
 
     private ReadnessCheckRestClient client;
 
@@ -59,12 +71,12 @@ class RestServerReadnessCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.restServerReadnessCheck.probe.url.0", value = "http://localhost:8001")
-    @AddConfig(key = "healthCheck.restServerReadnessCheck.probe.url.1", value = "http://localhost:8002")
+    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.0", value = "http://localhost:8001")
+    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.1", value = "http://localhost:8002")
     void testProbeReadnessOk() {
         var expectedOfCheck = new GenericCheckResponse.Check();
         expectedOfCheck.setStatus(Status.UP.name());
-        expectedOfCheck.setName(RestServerReadnessCheck.class.getSimpleName());
+        expectedOfCheck.setName(RestServersReadnessCheck.class.getSimpleName());
         Map<String, Object> data = new TreeMap<>(Map.of( // assertしやすいように並びを固定化
                 "http://localhost:8001", Status.UP.name(),
                 "http://localhost:8002", Status.UP.name()));
@@ -74,26 +86,32 @@ class RestServerReadnessCheckTest {
         expected.setStatus(Status.UP.name());
         expected.setChecks(List.of(expectedOfCheck));
 
-        var actual = client.probeReadness();
+        var actual = client.probeReadnessAsync().toCompletableFuture().join();
         actual.getChecks().forEach(check -> {
            check.setData(new TreeMap<>(check.getData())); // assertしやすいように並びを固定化
         });
+
         assertThatToString(actual).isEqualTo(expected);
     }
 
     @Test
-    @AddConfig(key = "healthCheck.restServerReadnessCheck.probe.url.0", value = "http://localhost:8001")
-    @AddConfig(key = "healthCheck.restServerReadnessCheck.probe.url.1", value = "http://localhost:9999") // NG server
+    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.0", value = "http://localhost:8001")
+    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.1", value = "http://localhost:9999") // NG server
     void testProbeReadnessNg() {
 
-        var thrown = catchThrowableOfType(() -> client.probeReadness(), WebApplicationException.class);
+        var thrown = catchThrowableOfType(
+                () -> client.probeReadnessAsync().toCompletableFuture().join(),
+                CompletionException.class);
         assertThat(thrown).isNotNull();
-        assertThat(thrown.getResponse().getStatus()).isEqualTo(SERVICE_UNAVAILABLE.getStatusCode());
+        var cause = thrown.getCause();
+        assertThat(thrown.getCause()).isNotNull().isInstanceOf(WebApplicationException.class);
+        assertThat(((WebApplicationException) cause).getResponse().getStatus())
+                .isEqualTo(SERVICE_UNAVAILABLE.getStatusCode());
 
         // check body data.
         var expectedOfCheck = new GenericCheckResponse.Check();
         expectedOfCheck.setStatus(Status.DOWN.name());
-        expectedOfCheck.setName(RestServerReadnessCheck.class.getSimpleName());
+        expectedOfCheck.setName(RestServersReadnessCheck.class.getSimpleName());
         Map<String, Object> data = new TreeMap<>(Map.of( // assertしやすいように並びを固定化
                 "http://localhost:8001", Status.UP.name(),
                 "http://localhost:9999", Status.DOWN.name()));
@@ -103,7 +121,7 @@ class RestServerReadnessCheckTest {
         expected.setStatus(Status.DOWN.name());
         expected.setChecks(List.of(expectedOfCheck));
 
-        var actual = thrown.getResponse().readEntity(GenericCheckResponse.class);
+        var actual = ((WebApplicationException)cause).getResponse().readEntity(GenericCheckResponse.class);
         actual.getChecks().forEach(check -> {
             check.setData(new TreeMap<>(check.getData())); // assertしやすいように並びを固定化
          });
@@ -127,14 +145,27 @@ class RestServerReadnessCheckTest {
         }
 
         @Override
+        public CompletableFuture<GenericCheckResponse> probeReadnessAsync() {
+            return CompletableFuture
+                    .supplyAsync(() -> {
+                        var check = new GenericCheckResponse.Check();
+                        check.setStatus(error ? Status.DOWN.name() : Status.UP.name());
+                        check.setName(SimpleReadnessCheck.class.getSimpleName());
+                        var res = new GenericCheckResponse();
+                        res.setStatus(check.getStatus());
+                        res.setChecks(List.of(check));
+                        return res;
+                    });
+        }
+
+        @Override
         public GenericCheckResponse probeReadness() {
-            var check = new GenericCheckResponse.Check();
-            check.setStatus(error ? Status.DOWN.name() : Status.UP.name());
-            check.setName(SimpleReadnessCheck.class.getSimpleName());
-            var res = new GenericCheckResponse();
-            res.setStatus(check.getStatus());
-            res.setChecks(List.of(check));
-            return res;
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void close() throws Exception {
+            // nop
         }
     }
 }

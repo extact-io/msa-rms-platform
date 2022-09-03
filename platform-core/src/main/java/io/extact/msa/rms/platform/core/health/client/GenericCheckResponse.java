@@ -63,9 +63,4 @@ public class GenericCheckResponse {
             this.data = data;
         }
     }
-
-    public static Check Check() {
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
-    }
 }
