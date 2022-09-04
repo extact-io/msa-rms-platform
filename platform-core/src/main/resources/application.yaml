@@ -2,15 +2,14 @@ json.format:
   date: yyyyMMdd
   dateTime: yyyyMMdd HH:mm
 
-# https://github.com/eclipse/microprofile-open-api/blob/master/spec/src/main/asciidoc/microprofile-openapi-spec.adoc#core-configurations
-# But Not valid until MP4.0
 mp.openapi.schema:
   java.time.LocalDateTime : |
     {
-      "name"："LocalDateTime",
-      "type"： "string",
-      "format"："yyyyMMdd HH:ss",
-      "description"："日時型に対するアプリでの扱い"
+      "name": "LocalDateTime",
+      "type": "string",
+      "format": "yyyyMMdd HH:ss",
+      "example": "20220904 09:00",
+      "description": "日時型フォーマット"
     }
 
 jwt:
