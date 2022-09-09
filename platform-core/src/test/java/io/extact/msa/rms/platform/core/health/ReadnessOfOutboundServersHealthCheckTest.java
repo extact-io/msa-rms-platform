@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.extact.msa.rms.platform.core.health.RestServersReadnessCheckTest.ReadnessCheckRestClientFactoryStub;
+import io.extact.msa.rms.platform.core.health.ReadnessOfOutboundServersHealthCheckTest.ReadnessCheckRestClientFactoryStub;
 import io.extact.msa.rms.platform.core.health.client.GenericCheckResponse;
 import io.extact.msa.rms.platform.core.health.client.ReadnessCheckRestClient;
 import io.extact.msa.rms.platform.core.health.client.ReadnessCheckRestClientFactory;
@@ -42,7 +42,7 @@ import jakarta.ws.rs.WebApplicationException;
  * <pre>
  * ・テストドライバ：RestClient(ReadnessCheckRestClient)
  *     ↓ HTTP(7001)
- * ・実物：MicroProfile Health(RestServersReadnessCheck)
+ * ・実物：MicroProfile Health(ReadnessOfOutboundServersHealthCheck)
  * ・スタブ：RestResource(ReadnessCheckRestClientFactoryStub)
  * </pre>
  */
@@ -57,9 +57,9 @@ import jakarta.ws.rs.WebApplicationException;
 @AddConfig(key = "server.port", value = "7001")
 // ---- following specific parts
 @AddExtension(HealthCdiExtension.class)
-@AddBean(RestServersReadnessCheck.class)
+@AddBean(ReadnessOfOutboundServersHealthCheck.class)
 @AddBean(value = ReadnessCheckRestClientFactoryStub.class, scope = Dependent.class)
-class RestServersReadnessCheckTest {
+class ReadnessOfOutboundServersHealthCheckTest {
 
     private ReadnessCheckRestClient client;
 
@@ -71,12 +71,12 @@ class RestServersReadnessCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.0", value = "http://localhost:8001")
-    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.1", value = "http://localhost:8002")
+    @AddConfig(key = "healthCheck.readnessOfOutboundServersHealthCheck.probe.url.0", value = "http://localhost:8001")
+    @AddConfig(key = "healthCheck.readnessOfOutboundServersHealthCheck.probe.url.1", value = "http://localhost:8002")
     void testProbeReadnessOk() {
         var expectedOfCheck = new GenericCheckResponse.Check();
         expectedOfCheck.setStatus(Status.UP.name());
-        expectedOfCheck.setName(RestServersReadnessCheck.class.getSimpleName());
+        expectedOfCheck.setName(ReadnessOfOutboundServersHealthCheck.class.getSimpleName());
         Map<String, Object> data = new TreeMap<>(Map.of( // assertしやすいように並びを固定化
                 "http://localhost:8001", Status.UP.name(),
                 "http://localhost:8002", Status.UP.name()));
@@ -95,8 +95,8 @@ class RestServersReadnessCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.0", value = "http://localhost:8001")
-    @AddConfig(key = "healthCheck.restServersReadnessCheck.probe.url.1", value = "http://localhost:9999") // NG server
+    @AddConfig(key = "healthCheck.readnessOfOutboundServersHealthCheck.probe.url.0", value = "http://localhost:8001")
+    @AddConfig(key = "healthCheck.readnessOfOutboundServersHealthCheck.probe.url.1", value = "http://localhost:9999") // NG server
     void testProbeReadnessNg() {
 
         var thrown = catchThrowableOfType(
@@ -111,7 +111,7 @@ class RestServersReadnessCheckTest {
         // check body data.
         var expectedOfCheck = new GenericCheckResponse.Check();
         expectedOfCheck.setStatus(Status.DOWN.name());
-        expectedOfCheck.setName(RestServersReadnessCheck.class.getSimpleName());
+        expectedOfCheck.setName(ReadnessOfOutboundServersHealthCheck.class.getSimpleName());
         Map<String, Object> data = new TreeMap<>(Map.of( // assertしやすいように並びを固定化
                 "http://localhost:8001", Status.UP.name(),
                 "http://localhost:9999", Status.DOWN.name()));

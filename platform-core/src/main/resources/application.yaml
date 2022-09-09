@@ -33,7 +33,7 @@ healthCheck:
       name: memory-health-check-readiness
   otherChecks:
     #- io.extact.msa.rms.platform.core.health.SimpleReadnessCheck
-    #- io.extact.msa.rms.platform.core.health.RestServersReadnessCheck
+    #- io.extact.msa.rms.platform.core.health.ReadnessOfOutboundServersHealthCheck
     #- io.extact.msa.rms.platform.core.health.DbReadnessCheck
   #dbReadnessCheck.pingSql: "SELECT 1"
 

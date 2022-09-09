@@ -19,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 
 //Bean registered by HealthCheckRegisterExtensions
 @Slf4j
-public class RestServersReadnessCheck {
+public class ReadnessOfOutboundServersHealthCheck {
 
-    private static final String PROBE_URL_CONFIG_KEY = "healthCheck.restServersReadnessCheck.probe.url";
+    private static final String PROBE_URL_CONFIG_KEY = "healthCheck.readnessOfOutboundServersHealthCheck.probe.url";
     private ReadnessCheckRestClientFactory factory;
     private List<String> probeUrls;
 
     @Inject
-    public RestServersReadnessCheck(
+    public ReadnessOfOutboundServersHealthCheck(
             ReadnessCheckRestClientFactory factory,
             @ConfigProperty(name = PROBE_URL_CONFIG_KEY) List<String> probeUrls) {
         this.factory = factory;
