@@ -5,12 +5,11 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import jakarta.ws.rs.core.Application;
-
 import io.extact.msa.rms.platform.core.debug.ServerHeaderDumpFilter;
 import io.extact.msa.rms.platform.core.jaxrs.converter.RmsTypeParameterFeature;
+import jakarta.ws.rs.core.Application;
 
-public abstract class RmsApplication extends Application implements CommonOpenApiDefinition {
+public abstract class RmsApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {

@@ -1,0 +1,10 @@
+config_ordinal: 50
+mp.openapi:
+  model:
+    reader: io.extact.msa.rms.platform.fw.webapi.server.CommonOpenApiModelReader
+
+openapi.info:
+  title: 未設定
+  contact:
+    name: 課外活動
+    url: https://extact-io.github.io/rms-website/

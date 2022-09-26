@@ -1,3 +1,4 @@
+config_ordinal: 30
 json.format:
   date: yyyyMMdd
   dateTime: yyyyMMdd HH:mm

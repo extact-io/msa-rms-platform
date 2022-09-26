@@ -13,14 +13,20 @@ import lombok.Setter;
 
 @Schema(description = "パラメータチェックエラー情報")
 @NoArgsConstructor // for JSON Deserialize
-@Getter @Setter
 public class ValidationErrorInfoImpl extends GenericErrorInfo implements ValidationErrorInfo {
 
-    private List<ValidationErrorItemImpl> errorItemImpls;
+    private List<ValidationErrorItemImpl> errorItems;
 
     public ValidationErrorInfoImpl(String errorReason, String errorMessage, List<ValidationErrorItemImpl> errorItems) {
         super(errorReason, errorMessage);
-        this.errorItemImpls = errorItems;
+        this.errorItems = errorItems;
+    }
+
+    @Override
+    public List<ValidationErrorItem> getErrorItems() {
+        return errorItems.stream()
+                .map(i -> (ValidationErrorItem) i)
+                .toList();
     }
 
     // ----------------------------------------------------- inner classes
@@ -36,13 +42,6 @@ public class ValidationErrorInfoImpl extends GenericErrorInfo implements Validat
 
         @Schema(description = "エラーメッセージ")
         private String message;
-    }
-
-    @Override
-    public List<ValidationErrorItem> getErrorItems() {
-        return errorItemImpls.stream()
-                .map(i -> (ValidationErrorItem) i)
-                .toList();
     }
 }
 
