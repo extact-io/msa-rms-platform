@@ -8,12 +8,12 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import io.extact.msa.rms.platform.core.jwt.provider.UserClaims;
 
 @ApplicationScoped
-public class Server1ApiRestBridge implements ClientApi {
+public class Server1ApiProxy implements ClientApi {
 
     private Server1ApiRestClient client;
 
     @Inject
-    public Server1ApiRestBridge(@RestClient Server1ApiRestClient client) {
+    public Server1ApiProxy(@RestClient Server1ApiRestClient client) {
         this.client = client;
     }
 

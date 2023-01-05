@@ -1,4 +1,4 @@
-package io.extact.msa.rms.platform.fw.stub.application.client.external.bridge;
+package io.extact.msa.rms.platform.fw.stub.application.client.external.proxy;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +14,12 @@ import io.extact.msa.rms.platform.fw.stub.application.common.dto.AddPersonEventD
 import io.extact.msa.rms.platform.fw.stub.application.common.dto.PersonResourceDto;
 
 @ApplicationScoped
-public class PersaonApiRestBridge implements PersonApi {
+public class PersaonApiProxy implements PersonApi {
 
     private PersonApiRestClient client;
 
     @Inject
-    public PersaonApiRestBridge(@RestClient PersonApiRestClient client) {
+    public PersaonApiProxy(@RestClient PersonApiRestClient client) {
         this.client = client;
     }
 

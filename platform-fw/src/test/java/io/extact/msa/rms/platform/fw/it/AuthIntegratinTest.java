@@ -19,7 +19,7 @@ import io.extact.msa.rms.platform.core.jwt.login.LoginUserUtils;
 import io.extact.msa.rms.platform.fw.it.AuthIntegratinTest.Server1AssertTest;
 import io.extact.msa.rms.platform.fw.it.AuthIntegratinTest.Server2AssertTest;
 import io.extact.msa.rms.platform.fw.stub.auth.client.ClientApi;
-import io.extact.msa.rms.platform.fw.stub.auth.client.Server1ApiRestBridge;
+import io.extact.msa.rms.platform.fw.stub.auth.client.Server1ApiProxy;
 import io.extact.msa.rms.platform.fw.stub.auth.client.Server1ApiRestClient;
 import io.extact.msa.rms.platform.fw.stub.auth.server1.Server1Application;
 import io.extact.msa.rms.platform.fw.stub.auth.server1.Server1Assert;
@@ -38,7 +38,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
  * スタブのPersonアプリを使ってplatform.fwクラスをテストする。
  * <pre>
  * ・スタブアプリ：CID Bean(PersonApi)
- * ・スタブアプリ：CID Bean(PersaonApiRestBridge)
+ * ・スタブアプリ：CID Bean(PersaonApiProxy)
  * ・スタブアプリ：RestClient(PersonApiRestClient)
  *     ↓ HTTP
  * ・スタブアプリ：RestResource(PersonApplication)
@@ -60,7 +60,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 @AddConfig(key = "jwt.filter.enable", value = "true") // 認証認可ON
 @AddConfig(key = "server.port", value = "7001") // for PersonResource Server port
 //for RESTClient Beans
-@AddBean(Server1ApiRestBridge.class)
+@AddBean(Server1ApiProxy.class)
 @AddBean(Server1ApiRestClient.class)
 @AddBean(Jose4jPrivateSecretedTokenValidator.class)
 @AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.core.jwt.client.JwtPropagateClientHeadersFactory")

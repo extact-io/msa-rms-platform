@@ -3,6 +3,8 @@ package io.extact.msa.rms.platform.fw.it;
 import static io.extact.msa.rms.test.assertj.ToStringAssert.*;
 import static org.assertj.core.api.Assertions.*;
 
+import jakarta.inject.Inject;
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ import io.extact.msa.rms.platform.fw.exception.BusinessFlowException;
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException.CauseType;
 import io.extact.msa.rms.platform.fw.exception.RmsValidationException;
 import io.extact.msa.rms.platform.fw.stub.application.client.external.PersonApi;
-import io.extact.msa.rms.platform.fw.stub.application.client.external.bridge.PersaonApiRestBridge;
+import io.extact.msa.rms.platform.fw.stub.application.client.external.proxy.PersaonApiProxy;
 import io.extact.msa.rms.platform.fw.stub.application.client.external.restclient.PersonApiRestClient;
 import io.extact.msa.rms.platform.fw.stub.application.common.dto.AddPersonEventDto;
 import io.extact.msa.rms.platform.fw.stub.application.common.dto.PersonResourceDto;
@@ -27,13 +29,12 @@ import io.extact.msa.rms.test.junit5.JulToSLF4DelegateExtension;
 import io.helidon.microprofile.tests.junit5.AddBean;
 import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
-import jakarta.inject.Inject;
 
 /**
  * スタブのPersonアプリを使ってplatform.fwクラスをテストする。
  * <pre>
  * ・スタブアプリ：CID Bean(PersonApi)
- * ・スタブアプリ：CID Bean(PersaonApiRestBridge)
+ * ・スタブアプリ：CID Bean(PersaonApiProxy)
  * ・スタブアプリ：RestClient(PersonApiRestClient)
  *     ↓ HTTP
  * ・スタブアプリ：RestResource(PersonApplication)
@@ -53,7 +54,7 @@ import jakarta.inject.Inject;
 @AddConfig(key = "jwt.filter.enable", value = "false") // 認証認可OFF
 @AddConfig(key = "server.port", value = "7001") // for PersonResource Server port
 //for RESTClient Beans
-@AddBean(PersaonApiRestBridge.class)
+@AddBean(PersaonApiProxy.class)
 @AddBean(PersonApiRestClient.class)
 @AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.core.jwt.client.PropagateLoginClientHeadersFactory")
 @AddConfig(key = "web-api/mp-rest/url", value = "http://localhost:7001") // for REST Client

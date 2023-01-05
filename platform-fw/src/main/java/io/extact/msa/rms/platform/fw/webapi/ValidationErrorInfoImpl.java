@@ -29,6 +29,11 @@ public class ValidationErrorInfoImpl extends GenericErrorInfo implements Validat
                 .toList();
     }
 
+    public void setErrorItems(List<ValidationErrorItemImpl> errorItems) {
+        this.errorItems = errorItems;
+    }
+
+
     // ----------------------------------------------------- inner classes
 
     @Schema(description = "1件ごとのチェックエラー情報")
