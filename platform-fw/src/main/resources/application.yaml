@@ -1,10 +1,22 @@
+#TODO: Remove when https://github.com/helidon-io/helidon/issues/5537 is fixed
+security:
+  providers:
+      - jwt:
+          atn-token:
+            verify-signature: false
+          sign-token:
+            outbound:
+              - name: "propagate-token"
+
 config_ordinal: 50
 mp.openapi:
   model:
-    reader: io.extact.msa.rms.platform.fw.webapi.server.CommonOpenApiModelReader
+    reader: io.extact.msa.rms.platform.fw.webapi.CommonOpenApiModelReader
 
 openapi.info:
   title: 未設定
   contact:
     name: 課外活動
     url: https://extact-io.github.io/rms-website/
+#  for Helidon
+tracing.enabled: false ## デフォルトでOFFで有効化したい場合に起動パラメータもしくは環境変数で有効化設定をする

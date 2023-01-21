@@ -51,12 +51,12 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 @AddBean(PersonJpaRepository.class)
 @AddBean(PersonFileRepository.class)
 @AddBean(PersonFileRepositoryProducers.class)
-@AddConfig(key = "jwt.filter.enable", value = "false") // 認証認可OFF
+@AddConfig(key = "security.jersey.enabled", value = "true") // 認証認可OFF
 @AddConfig(key = "server.port", value = "7001") // for PersonResource Server port
 //for RESTClient Beans
 @AddBean(PersaonApiProxy.class)
 @AddBean(PersonApiRestClient.class)
-@AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.core.jwt.client.PropagateLoginClientHeadersFactory")
+@AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.fw.external.PropagateJwtClientHeadersFactory")
 @AddConfig(key = "web-api/mp-rest/url", value = "http://localhost:7001") // for REST Client
 //for common
 @ExtendWith(JulToSLF4DelegateExtension.class)

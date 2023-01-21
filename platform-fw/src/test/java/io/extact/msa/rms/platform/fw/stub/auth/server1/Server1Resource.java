@@ -2,14 +2,12 @@ package io.extact.msa.rms.platform.fw.stub.auth.server1;
 
 import java.util.Set;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Path;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import io.extact.msa.rms.platform.core.jwt.consumer.Authenticated;
 import io.extact.msa.rms.platform.core.jwt.provider.GenerateToken;
 import io.extact.msa.rms.platform.fw.stub.auth.client_sever1.AuthData;
 import io.extact.msa.rms.platform.fw.stub.auth.client_sever1.ClientServer1Api;
@@ -34,8 +32,6 @@ public class Server1Resource implements ClientServer1Api {
         return new AuthData(loginId, Set.of(password));
     }
 
-    @Authenticated
-    @RolesAllowed("member")
     @Override
     public boolean memeberApi() {
         server1Assert.doMemberApiAssert();
@@ -44,8 +40,6 @@ public class Server1Resource implements ClientServer1Api {
         return true;
     }
 
-    @Authenticated
-    @RolesAllowed("admin")
     @Override
     public boolean adminApi() {
         server1Assert.doAdminApiAssert();
@@ -63,7 +57,7 @@ public class Server1Resource implements ClientServer1Api {
 
     @Override
     public boolean guestApiWithLogin() {
-        server1Assert.doGuestApiWithAssert();
+        server1Assert.doGuestApiWithLoginAssert();
         return true;
     }
 }

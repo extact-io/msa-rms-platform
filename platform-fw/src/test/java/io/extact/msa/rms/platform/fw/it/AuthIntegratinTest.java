@@ -5,19 +5,17 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.Set;
 
 import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4jJwtGenerator;
-import io.extact.msa.rms.platform.core.jwt.impl.jose4j.Jose4jPrivateSecretedTokenValidator;
-import io.extact.msa.rms.platform.core.jwt.login.LoginUserUtils;
+import io.extact.msa.rms.platform.core.jwt.provider.impl.Auth0RsaJwtGenerator;
+import io.extact.msa.rms.platform.fw.exception.webapi.SecurityConstraintException;
 import io.extact.msa.rms.platform.fw.it.AuthIntegratinTest.Server1AssertTest;
 import io.extact.msa.rms.platform.fw.it.AuthIntegratinTest.Server2AssertTest;
+import io.extact.msa.rms.platform.fw.login.LoginUserUtils;
 import io.extact.msa.rms.platform.fw.stub.auth.client.ClientApi;
 import io.extact.msa.rms.platform.fw.stub.auth.client.Server1ApiProxy;
 import io.extact.msa.rms.platform.fw.stub.auth.client.Server1ApiRestClient;
@@ -28,7 +26,6 @@ import io.extact.msa.rms.platform.fw.stub.auth.server1.Server2ApiRestClient;
 import io.extact.msa.rms.platform.fw.stub.auth.server2.Server2Application;
 import io.extact.msa.rms.platform.fw.stub.auth.server2.Server2Assert;
 import io.extact.msa.rms.platform.fw.stub.auth.server2.Server2Resource;
-import io.extact.msa.rms.platform.fw.webapi.SecurityConstraintException;
 import io.extact.msa.rms.test.junit5.JulToSLF4DelegateExtension;
 import io.helidon.microprofile.tests.junit5.AddBean;
 import io.helidon.microprofile.tests.junit5.AddConfig;
@@ -47,33 +44,37 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
  * ※ JPAかFileかどちらの実装を使うかはこのクラスのサブクラスで決定
  * </pre>
  */
-@HelidonTest
+// for JWT Auth
+@HelidonTest(resetPerTest = true)
+@AddConfig(key = "jwt.privatekey.path", value = "/jwt.key")
+@AddConfig(key = "mp.jwt.verify.publickey.location", value = "/jwt.pub.key")
+@AddConfig(key = "security.jersey.enabled", value = "true") // 認証認可ON
 // for RESTResrouce Beans
 @AddBean(Server1Resource.class)
 @AddBean(Server1Application.class)
-@AddBean(Jose4jJwtGenerator.class)
+@AddBean(Auth0RsaJwtGenerator.class)
 @AddBean(value = Server1AssertTest.class, scope = Dependent.class)
 @AddBean(Server2Resource.class)
 @AddBean(Server2Application.class)
 @AddBean(Server2ApiRestClient.class)
 @AddBean(value = Server2AssertTest.class, scope = Dependent.class)
-@AddConfig(key = "jwt.filter.enable", value = "true") // 認証認可ON
 @AddConfig(key = "server.port", value = "7001") // for PersonResource Server port
-//for RESTClient Beans
+// for RESTClient Beans
 @AddBean(Server1ApiProxy.class)
 @AddBean(Server1ApiRestClient.class)
-@AddBean(Jose4jPrivateSecretedTokenValidator.class)
-@AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.core.jwt.client.JwtPropagateClientHeadersFactory")
-@AddConfig(key = "web-api", value = "http://localhost:7001") // for REST Client
+@AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.fw.external.PropagateJwtClientHeadersFactory")
+@AddConfig(key = "web-api/mp-rest/url", value = "http://localhost:7001") // for REST Client
 @ExtendWith(JulToSLF4DelegateExtension.class)
-@TestMethodOrder(OrderAnnotation.class)
 public class AuthIntegratinTest {
 
-    @Inject
     private ClientApi api;
 
+    @BeforeEach
+    void setup() {
+        this.api = CDI.current().select(ClientApi.class).get();
+    }
+
     @Test
-    @Order(1)
     void testNotLogin() {
         // yet not login
         var actual = api.guestApi();
@@ -87,7 +88,6 @@ public class AuthIntegratinTest {
     }
 
     @Test
-    @Order(2)
     void testMemberLogin() {
         var actual = api.authenticate("1", "member");
         assertThat(actual.getUserId()).isEqualTo("1");
@@ -105,7 +105,6 @@ public class AuthIntegratinTest {
 
 
     @Test
-    @Order(3)
     void testAdmin() {
         var actual = api.authenticate("2", "admin");
         assertThat(actual.getUserId()).isEqualTo("2");
@@ -150,9 +149,9 @@ public class AuthIntegratinTest {
         }
 
         @Override
-        public void doGuestApiWithAssert() {
+        public void doGuestApiWithLoginAssert() {
             var actual = LoginUserUtils.get();
-            assertThat(actual.isUnknownUser()).isTrue();
+            assertThat(actual.isUnknownUser()).isFalse();
         }
     }
 

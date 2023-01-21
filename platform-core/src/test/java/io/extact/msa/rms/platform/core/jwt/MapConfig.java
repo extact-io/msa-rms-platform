@@ -68,17 +68,8 @@ public class MapConfig implements Config {
 
     // -------------------------------------------------------- service methods.
 
-    public void addThroghPath(String path) {
-        long count = configMap.keySet().stream()
-                    .filter(name -> name.startsWith(CONFIG_PREFIX + "passthrough"))
-                    .count();
-        configMap.put(CONFIG_PREFIX + "phrass." + count + ".path", path);
-    }
-    public void overwriteThroghPath(int pos, String path) {
-        configMap.put(CONFIG_PREFIX + "phrass." + pos + ".path", path);
-    }
-    public void setSecretPhrase(String phrase) {
-        configMap.put(CONFIG_PREFIX + "phrass", phrase);
+    public void setPrivateKeyPath(String path) {
+        configMap.put(CONFIG_PREFIX + "privatekey.path", path);
     }
     public void setIssuer(String issuer) {
         configMap.put(CONFIG_PREFIX + "claim.issuer", issuer);
@@ -86,11 +77,8 @@ public class MapConfig implements Config {
     public void setIssuedAt(long val) {
         configMap.put(CONFIG_PREFIX + "claim.issuedAt", val);
     }
-    public void setExpirationTime(Float exp) {
-        configMap.put(CONFIG_PREFIX + "claim.exp", exp);
-    }
-    public void setAllowedClockSeconds(int seconds) {
-        configMap.put(CONFIG_PREFIX + "claim.allowedClockSeconds", seconds);
+    public void setExpirationTime(int minutes) {
+        configMap.put(CONFIG_PREFIX + "claim.exp", minutes);
     }
 
     // -------------------------------------------------------- inner class.

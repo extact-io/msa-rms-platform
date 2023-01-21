@@ -5,5 +5,5 @@ public interface Server1Assert {
     void doMemberApiAssert();
     void doAdminApiAssert();
     void doGuestApiAssert();
-    void doGuestApiWithAssert();
+    void doGuestApiWithLoginAssert();
 }

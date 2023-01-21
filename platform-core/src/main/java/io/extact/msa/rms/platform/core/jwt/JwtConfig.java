@@ -1,8 +1,5 @@
 package io.extact.msa.rms.platform.core.jwt;
 
-import java.security.Key;
-import java.util.function.Function;
-
 import org.eclipse.microprofile.config.Config;
 
 public class JwtConfig {
@@ -21,12 +18,6 @@ public class JwtConfig {
         this.config = config;
     }
 
-    public String getSecretPhrase() {
-        return config.getValue(CONFIG_PREFIX + "phrass", String.class);
-    }
-    public Key getSecretKey(Function<String, Key> keyCreator) {
-        return keyCreator.apply(getSecretPhrase());
-    }
     public String getIssuer() {
         return config.getValue(CONFIG_PREFIX + "claim.issuer", String.class);
     }
@@ -36,13 +27,10 @@ public class JwtConfig {
     public long getIssuedAt() {
         return config.getValue(CONFIG_PREFIX + "claim.issuedAt", Long.class);
     }
-    public float getExpirationTime() {
-        return config.getValue(CONFIG_PREFIX + "claim.exp", Float.class);
+    public int getExpirationTime() {
+        return config.getValue(CONFIG_PREFIX + "claim.exp", Integer.class);
     }
-    public int getAllowedClockSeconds() {
-        return config.getValue(CONFIG_PREFIX + "claim.allowedClockSeconds", Integer.class);
-    }
-    public boolean enableFilter() {
-        return config.getValue(CONFIG_PREFIX + "filter.enable", Boolean.class);
+    public String getPrivateKeyPath() {
+        return config.getValue(CONFIG_PREFIX + "privatekey.path", String.class);
     }
 }

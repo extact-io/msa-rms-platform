@@ -4,8 +4,8 @@ import java.util.Set;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import io.extact.msa.rms.platform.core.jwt.login.PropagatedLoginHeaderRequestFilter;
-import io.extact.msa.rms.platform.fw.webapi.server.RmsApplication;
+import io.extact.msa.rms.platform.fw.login.LoginUserFromHttpHeadersRequestFilter;
+import io.extact.msa.rms.platform.fw.webapi.RmsApplication;
 
 @ApplicationScoped
 public class Server2Application extends RmsApplication {
@@ -13,7 +13,7 @@ public class Server2Application extends RmsApplication {
     @Override
     protected Set<Class<?>> getWebApiClasses() {
         return Set.of(
-                PropagatedLoginHeaderRequestFilter.class,
+                LoginUserFromHttpHeadersRequestFilter.class,
                 Server2Resource.class);
     }
 }

@@ -4,20 +4,21 @@ import java.util.Set;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import io.extact.msa.rms.platform.core.jwt.JwtSecurityFilterFeature;
-import io.extact.msa.rms.platform.core.jwt.login.LoginUserRequestFilter;
-import io.extact.msa.rms.platform.core.role.RoleSecurityDynamicFeature;
-import io.extact.msa.rms.platform.fw.webapi.server.RmsApplication;
+import org.eclipse.microprofile.auth.LoginConfig;
+
+import io.extact.msa.rms.platform.core.jwt.provider.JwtProvideResponseFilter;
+import io.extact.msa.rms.platform.fw.login.LoginUserFromJwtRequestFilter;
+import io.extact.msa.rms.platform.fw.webapi.RmsApplication;
 
 @ApplicationScoped
+@LoginConfig(authMethod = "MP-JWT")
 public class Server1Application extends RmsApplication {
 
     @Override
     protected Set<Class<?>> getWebApiClasses() {
         return Set.of(
-                JwtSecurityFilterFeature.class,
-                RoleSecurityDynamicFeature.class,
-                LoginUserRequestFilter.class,
+                JwtProvideResponseFilter.class,
+                LoginUserFromJwtRequestFilter.class,
                 Server1Resource.class);
     }
 }

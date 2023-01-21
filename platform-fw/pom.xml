@@ -128,6 +128,11 @@
 			<artifactId>helidon-microprofile-rest-client</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.helidon.microprofile.jwt</groupId>
+			<artifactId>helidon-microprofile-jwt-auth</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- for JTA/JPA runtimes -->
 		<dependency>
@@ -204,15 +209,17 @@
 
 		<!-- for jwt auth runtime -->
 		<dependency>
-			<groupId>jakarta.security.enterprise</groupId>
-			<artifactId>jakarta.security.enterprise-api</artifactId>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.bitbucket.b_c</groupId>
 			<artifactId>jose4j</artifactId>
 			<scope>test</scope>
 		</dependency>
+		-->
 	</dependencies>
 	<build>
 		<plugins>

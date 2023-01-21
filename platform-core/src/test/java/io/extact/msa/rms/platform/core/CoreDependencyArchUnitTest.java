@@ -15,26 +15,27 @@ class CoreDependencyArchUnitTest {
     // ---------------------------------------------------------------------
 
     /**
-     * jose4jへの依存はimpl.jose4jパッケージのみの定義
+     * jose4jとAuth0への依存はprovider.implパッケージのみの定義
      * <pre>
-     * ・jose4jへはimpl.jose4jパッケージでしか依存していないこと
+     * ・jose4jとAuth0へはprovider.impljパッケージでしか依存していないこと
      * </pre>
      */
     @ArchTest
-    static final ArchRule test_jose4jへの依存はimplパッケージのみの定義 =
+    static final ArchRule test_JWT実装への依存はimplパッケージのみの定義 =
             noClasses()
                 .that()
                     .resideInAPackage("io.extact.msa.rms..")
-                    .and().resideOutsideOfPackage("io.extact.msa.rms.platform.core.jwt.impl.jose4j..")
+                    .and().resideOutsideOfPackage("io.extact.msa.rms.platform.core.jwt.provider.impl..")
             .should()
                 .dependOnClassesThat()
                     .resideInAnyPackage(
-                        "org.jose4j.jwt.."
+                        "org.jose4j.jwt..",
+                        "com.auth0.jwt.."
                         );
     /**
      * jwtパッケージの依存関係の定義
      * <pre>
-     * ・jwtパッケージ直下のクラスとfilterパッケージはjwtの実装依存のimplパッケージに依存してないこと
+     * ・jwtパッケージ直下のクラスはjwtの実装依存のimplパッケージに依存してないこと
      * </pre>
      */
     @ArchTest
@@ -42,10 +43,9 @@ class CoreDependencyArchUnitTest {
             noClasses()
                 .that()
                     .resideInAPackage("io.extact.msa.rms.platform.core.jwt")
-                    .or().resideInAPackage("io.extact.msa.rms.platform.core.jwt.filter..")
                 .should()
                     .dependOnClassesThat()
                         .resideInAnyPackage(
-                                "io.extact.msa.rms.platform.core.jwt.impl.."
+                                "io.extact.msa.rms.platform.core.jwt.provider.impl.."
                                 );
 }

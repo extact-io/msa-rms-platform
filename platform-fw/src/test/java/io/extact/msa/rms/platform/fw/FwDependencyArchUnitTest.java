@@ -56,9 +56,11 @@ class FwDependencyArchUnitTest {
                     "io.extact.msa.rms.platform.fw.domain..",
                     "io.extact.msa.rms.platform.fw.exception..",
                     "io.extact.msa.rms.platform.fw.login..")
+            .layer("external").definedBy("io.extact.msa.rms.platform.fw.external..")
 
             .whereLayer("webapi").mayNotBeAccessedByAnyLayer()
             .whereLayer("service").mayOnlyBeAccessedByLayers("webapi")
             .whereLayer("persistence").mayOnlyBeAccessedByLayers("service")
-            .whereLayer("domain").mayOnlyBeAccessedByLayers("webapi", "service", "persistence");
+            .whereLayer("external").mayOnlyBeAccessedByLayers("service")
+            .whereLayer("domain").mayOnlyBeAccessedByLayers("webapi", "service", "persistence", "external");
 }

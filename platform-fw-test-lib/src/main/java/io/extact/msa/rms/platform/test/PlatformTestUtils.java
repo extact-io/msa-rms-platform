@@ -18,8 +18,8 @@ import org.apache.commons.csv.CSVParser;
 
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException;
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException.CauseType;
-import io.extact.msa.rms.platform.fw.webapi.GenericErrorInfo;
-import io.extact.msa.rms.platform.fw.webapi.ValidationErrorInfoImpl;
+import io.extact.msa.rms.platform.fw.exception.webapi.GenericErrorInfo;
+import io.extact.msa.rms.platform.fw.exception.webapi.ValidationErrorInfoImpl;
 
 /**
  * Platformモジュール関連のテストユーティルクラス。

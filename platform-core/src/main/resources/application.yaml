@@ -14,12 +14,11 @@ mp.openapi.schema:
     }
 
 jwt:
-  phrass: privateSecretkey
+  privatekey.path: /path/to/your/file
   claim:
     issuer: your-application
     issuedAt: -1            # 発行日時[-1はnow()]（秒単位）
     exp: 60                 # 有効期限（分単位）
-    allowedClockSeconds: 30 # 有効期限のズレ許容時間（秒単位）
   filter:
     enable: true
 
@@ -34,8 +33,8 @@ healthCheck:
       name: memory-health-check-readiness
   otherChecks:
     #- io.extact.msa.rms.platform.core.health.SimpleReadnessCheck
-    #- io.extact.msa.rms.platform.core.health.ReadnessOfOutboundServersHealthCheck
-    #- io.extact.msa.rms.platform.core.health.DbReadnessCheck
+    #- io.extact.msa.rms.platform.core.health.ReadinessOfOutboundServersHealthCheck
+    #- io.extact.msa.rms.platform.core.health.DbReadinessCheck
   #dbReadnessCheck.pingSql: "SELECT 1"
 
 
