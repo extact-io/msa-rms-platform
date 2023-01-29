@@ -74,9 +74,9 @@ public class SecretKeyFile {
         <T extends RSAKey> T of(String pem);
     }
 
+    @SuppressWarnings("unchecked")
     static class PrivateKeyCreator implements KeyType {
         @Override
-        @SuppressWarnings("unchecked")
         public RSAPrivateKey of(String pem) {
             String privateKey = pem
                     .replace("-----BEGIN PRIVATE KEY-----", "")
@@ -94,9 +94,9 @@ public class SecretKeyFile {
         }
     }
 
+    @SuppressWarnings("unchecked")
     static class PublicKeyCreator implements KeyType {
         @Override
-        @SuppressWarnings("unchecked")
         public RSAPublicKey of(String pem) {
             String publicKey = pem
                     .replace("-----BEGIN PUBLIC KEY-----", "")

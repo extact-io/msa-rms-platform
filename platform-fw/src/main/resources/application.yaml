@@ -9,9 +9,6 @@ security:
               - name: "propagate-token"
 
 config_ordinal: 50
-mp.openapi:
-  model:
-    reader: io.extact.msa.rms.platform.fw.webapi.CommonOpenApiModelReader
 
 openapi.info:
   title: 未設定

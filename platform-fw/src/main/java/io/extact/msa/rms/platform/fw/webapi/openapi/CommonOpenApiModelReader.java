@@ -1,4 +1,7 @@
-package io.extact.msa.rms.platform.fw.webapi;
+package io.extact.msa.rms.platform.fw.webapi.openapi;
+
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -9,16 +12,10 @@ import org.eclipse.microprofile.openapi.models.headers.Header;
 import org.eclipse.microprofile.openapi.models.info.Info;
 import org.eclipse.microprofile.openapi.models.media.Content;
 import org.eclipse.microprofile.openapi.models.media.Schema.SchemaType;
-import org.eclipse.microprofile.openapi.models.security.SecurityScheme;
-import org.eclipse.microprofile.openapi.models.security.SecurityScheme.In;
-import org.eclipse.microprofile.openapi.models.security.SecurityScheme.Type;
 
 import io.extact.msa.rms.platform.core.env.Environment;
 import io.extact.msa.rms.platform.fw.exception.webapi.GenericErrorInfo;
 import io.extact.msa.rms.platform.fw.exception.webapi.ValidationErrorInfoImpl;
-
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.spi.CDI;
 
 public class CommonOpenApiModelReader implements OASModelReader {
 
@@ -57,11 +54,6 @@ public class CommonOpenApiModelReader implements OASModelReader {
                         .addHeader("Rms-Exception", createExceptionHeader("発生例外のConstraintViolationExceptionが設定される"))
                         .content(createErrorInfoContent(ValidationErrorInfoImpl.class)));
 
-        components = components
-                .addSecurityScheme("RmsJwtAuth", createRmsJwtAuth())
-                .addSecurityScheme("RmsHeaderAuthn", createRmsHeaderAuthn())
-                .addSecurityScheme("RmsHeaderAuthz", createRmsHeaderAuthz());
-
         OpenAPI openAPI = OASFactory.createOpenAPI();
         openAPI.info(createInfo());
         openAPI.components(components);
@@ -95,31 +87,6 @@ public class CommonOpenApiModelReader implements OASModelReader {
                 .addMediaType("application/json", OASFactory.createMediaType()
                         .schema(OASFactory.createSchema()
                                 .ref("#/components/schemas/" + errorInfoClass.getSimpleName())));
-    }
-
-    private SecurityScheme createRmsJwtAuth() {
-        return OASFactory.createSecurityScheme()
-                .description("認証と認可はMicroProfile JWT RBAC Securityの仕様をもとに行い認証エラーの場合は401を認可エラーの場合は403を返す")
-                .type(Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT")
-                .in(In.HEADER);
-    }
-
-    private SecurityScheme createRmsHeaderAuthn() {
-        return OASFactory.createSecurityScheme()
-                .description("閉域ネットワーク内での利用を前提に認証情報をヘッダーで連携する")
-                .type(Type.APIKEY)
-                .in(In.HEADER)
-                .name("rms-userId");
-    }
-
-    private SecurityScheme createRmsHeaderAuthz() {
-        return OASFactory.createSecurityScheme()
-                .description("閉域ネットワーク内での利用を前提に認可情報をヘッダーで連携する")
-                .type(Type.APIKEY)
-                .in(In.HEADER)
-                .name("rms-roles");
     }
 
     @ConfigProperties(prefix = "openapi.info")
