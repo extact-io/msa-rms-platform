@@ -26,15 +26,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PageNotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
 
-    private static final String UNHANDLE_404_PATHS_PROP = "exception.mapper.unhandle.404.paths";
+    private static final String IGNORE_404_PATHS_PROP = "rms.jaxrs.mapper.ignore.404.paths";
 
     @Context
     private UriInfo uriInfo;
-    private Unhandle404 unhandle404;
+    private Ignore404 ignore404;
 
     @Inject
     public PageNotFoundExceptionMapper(Config config) {
-        this.unhandle404 =new Unhandle404(config.getOptionalValue(UNHANDLE_404_PATHS_PROP, String[].class));
+        this.ignore404 =new Ignore404(config.getOptionalValue(IGNORE_404_PATHS_PROP, String[].class));
     }
 
     /**
@@ -45,7 +45,7 @@ public class PageNotFoundExceptionMapper implements ExceptionMapper<NotFoundExce
      */
     @Override
     public Response toResponse(NotFoundException exception) {
-        if (!unhandle404.test("/" + uriInfo.getPath())) {
+        if (!ignore404.test("/" + uriInfo.getPath())) {
             log.warn(exception.getMessage() + " (path=>{})", "/" + uriInfo.getPath());
         }
         return exception.getResponse();
@@ -54,9 +54,9 @@ public class PageNotFoundExceptionMapper implements ExceptionMapper<NotFoundExce
 
     // ----------------------------------------------------- inner class def
 
-    static class Unhandle404 implements Predicate<String> {
+    static class Ignore404 implements Predicate<String> {
         private String[] unhandlePaths;
-        public Unhandle404(Optional<String[]> paths) {
+        public Ignore404(Optional<String[]> paths) {
             this.unhandlePaths = paths.orElse(new String[0]);
         }
         @Override

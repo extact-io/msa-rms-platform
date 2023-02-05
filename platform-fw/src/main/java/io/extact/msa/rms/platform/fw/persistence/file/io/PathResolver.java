@@ -45,7 +45,7 @@ public interface PathResolver {
          */
         public FixedDirPathResolver() {
             var config = ConfigProvider.getConfig();
-            this.baseDir = Paths.get(config.getValue("csv.permanent.directory", String.class));
+            this.baseDir = Paths.get(config.getValue("rms.persistence.csv.permanent.directory", String.class));
         }
         /**
          * {@inheritDoc}

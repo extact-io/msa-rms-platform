@@ -45,7 +45,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 
 @HelidonTest(resetPerTest = true)
 @AddConfig(key = "server.port", value = "7001")
-@AddConfig(key = "jwt.privatekey.path", value = "/jwt.key")
+@AddConfig(key = "rms.jwt.privatekey.path", value = "/jwt.key")
 @AddConfig(key = "mp.jwt.verify.publickey.location", value = "/jwt.pub.key")
 @AddBean(TestLoginApplication.class)
 @AddBean(TestStubApplication.class)

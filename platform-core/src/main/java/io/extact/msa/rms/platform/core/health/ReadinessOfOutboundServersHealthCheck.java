@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReadinessOfOutboundServersHealthCheck {
 
-    private static final String PROBE_URL_CONFIG_KEY = "healthCheck.readinessOfOutboundServersHealthCheck.probe.url";
+    private static final String PROBE_URL_CONFIG_KEY = "rms.healthCheck.readinessOfOutboundServersHealthCheck.probe.url";
     private ReadnessCheckRestClientFactory factory;
     private List<String> probeUrls;
 

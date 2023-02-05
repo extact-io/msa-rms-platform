@@ -17,7 +17,7 @@ public class JsonbRmsConfig implements ContextResolver<Jsonb> {
 
     public JsonbRmsConfig() {
         // ConfigがなぜかInjectで取得できないためProvierクラス経由で取得
-        var dateTimeFormat = ConfigProvider.getConfig().getValue("json.format.dateTime", String.class);
+        var dateTimeFormat = ConfigProvider.getConfig().getValue("rms.jaxrs.converter.format.dateTime", String.class);
         var serializers = new LocalDateTimeSerializers(DateTimeFormatter.ofPattern(dateTimeFormat));
         var config = new JsonbConfig()
                     .withSerializers(serializers.getSerializer())

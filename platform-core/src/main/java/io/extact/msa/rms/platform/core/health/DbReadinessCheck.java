@@ -21,7 +21,7 @@ public class DbReadinessCheck {
     private String pingSql;
 
     @Inject
-    public DbReadinessCheck(@ConfigProperty(name = "healthCheck.dbReadinessCheck.pingSql") String pingSql) {
+    public DbReadinessCheck(@ConfigProperty(name = "rms.healthCheck.dbReadinessCheck.pingSql") String pingSql) {
         this.pingSql = pingSql;
     }
 

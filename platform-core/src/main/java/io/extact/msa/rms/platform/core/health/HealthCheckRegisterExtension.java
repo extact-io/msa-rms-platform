@@ -2,13 +2,14 @@ package io.extact.msa.rms.platform.core.health;
 
 import java.util.Collections;
 
-import org.eclipse.microprofile.config.ConfigProvider;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
 import jakarta.enterprise.inject.spi.Extension;
 import jakarta.enterprise.inject.spi.configurator.AnnotatedTypeConfigurator;
+
+import org.eclipse.microprofile.config.ConfigProvider;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -18,7 +19,7 @@ public class HealthCheckRegisterExtension implements Extension {
         var config = ConfigProvider.getConfig();
 
         // for memoryHealth config
-        var enableMemoryHealth = config.getOptionalValue("healthCheck.memoryHealth.enable", boolean.class)
+        var enableMemoryHealth = config.getOptionalValue("rms.healthCheck.memoryHealth.enable", boolean.class)
                 .orElse(false);
         if (enableMemoryHealth) {
             // register MemoryHealthCheckBean

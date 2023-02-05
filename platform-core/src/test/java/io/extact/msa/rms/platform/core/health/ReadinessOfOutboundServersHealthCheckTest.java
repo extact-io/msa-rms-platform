@@ -72,8 +72,8 @@ class ReadinessOfOutboundServersHealthCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.readinessOfOutboundServersHealthCheck.probe.url.0", value = "http://localhost:8001")
-    @AddConfig(key = "healthCheck.readinessOfOutboundServersHealthCheck.probe.url.1", value = "http://localhost:8002")
+    @AddConfig(key = "rms.healthCheck.readinessOfOutboundServersHealthCheck.probe.url.0", value = "http://localhost:8001")
+    @AddConfig(key = "rms.healthCheck.readinessOfOutboundServersHealthCheck.probe.url.1", value = "http://localhost:8002")
     void testProbeReadnessOk() {
         var expectedOfCheck = new GenericCheckResponse.Check();
         expectedOfCheck.setStatus(Status.UP.name());
@@ -96,8 +96,8 @@ class ReadinessOfOutboundServersHealthCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.readinessOfOutboundServersHealthCheck.probe.url.0", value = "http://localhost:8001")
-    @AddConfig(key = "healthCheck.readinessOfOutboundServersHealthCheck.probe.url.1", value = "http://localhost:9999") // NG server
+    @AddConfig(key = "rms.healthCheck.readinessOfOutboundServersHealthCheck.probe.url.0", value = "http://localhost:8001")
+    @AddConfig(key = "rms.healthCheck.readinessOfOutboundServersHealthCheck.probe.url.1", value = "http://localhost:9999") // NG server
     void testProbeReadnessNg() {
 
         var thrown = catchThrowableOfType(

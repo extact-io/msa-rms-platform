@@ -1,0 +1,12 @@
+# Workflow - Publish to GitHub Packages
+name: deploy-workflow
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+  execute:
+    uses: extact-io/msa-rms-parent/.github/workflows/deploy-job-external.yml@main
+    secrets: inherit
+

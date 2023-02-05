@@ -2,14 +2,15 @@ package io.extact.msa.rms.platform.fw.persistence.jpa;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
+import jakarta.validation.Valid;
+
 import io.extact.msa.rms.platform.core.validate.ValidateGroup;
 import io.extact.msa.rms.platform.core.validate.ValidateParam;
 import io.extact.msa.rms.platform.fw.domain.IdProperty;
 import io.extact.msa.rms.platform.fw.domain.constraint.ValidationGroups.Add;
 import io.extact.msa.rms.platform.fw.domain.constraint.ValidationGroups.Update;
 import io.extact.msa.rms.platform.fw.persistence.GenericRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.validation.Valid;
 
 public abstract class JpaCrudRepository<T extends IdProperty> implements GenericRepository<T> {
 

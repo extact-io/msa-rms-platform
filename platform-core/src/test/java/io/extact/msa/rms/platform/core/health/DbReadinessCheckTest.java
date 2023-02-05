@@ -10,6 +10,13 @@ import java.lang.reflect.Proxy;
 import java.net.URI;
 import java.util.List;
 
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
+import jakarta.ws.rs.WebApplicationException;
+
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse.Status;
@@ -35,12 +42,6 @@ import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.AddExtension;
 import io.helidon.microprofile.tests.junit5.DisableDiscovery;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
-import jakarta.enterprise.inject.Produces;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceException;
-import jakarta.persistence.Query;
-import jakarta.ws.rs.WebApplicationException;
 
 @HelidonTest(resetPerTest = true)
 @DisableDiscovery
@@ -67,7 +68,7 @@ class DbReadinessCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.dbReadnessCheck.pingSql", value = "SELECT 1")
+    @AddConfig(key = "rms.healthCheck.dbReadnessCheck.pingSql", value = "SELECT 1")
     void testProbeReadnessOk() {
         var expectedOfCheck = new GenericCheckResponse.Check();
         expectedOfCheck.setStatus(Status.UP.name());
@@ -83,7 +84,7 @@ class DbReadinessCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.dbReadnessCheck.pingSql", value = "SQL ERROR")
+    @AddConfig(key = "rms.healthCheck.dbReadnessCheck.pingSql", value = "SQL ERROR")
     void testProbeReadnessNg() {
 
         var thrown = catchThrowableOfType(() -> client.probeReadness(), WebApplicationException.class);
@@ -111,7 +112,7 @@ class DbReadinessCheckTest {
 
         @Inject
         public DbReadinessCheckTestWrapper(
-                @ConfigProperty(name = "healthCheck.dbReadnessCheck.pingSql") String pingSql) {
+                @ConfigProperty(name = "rms.healthCheck.dbReadnessCheck.pingSql") String pingSql) {
             var temp = new DbReadinessCheck(pingSql);
             EntityManager emProxy = (EntityManager) Proxy.newProxyInstance(
                     this.getClass().getClassLoader(),

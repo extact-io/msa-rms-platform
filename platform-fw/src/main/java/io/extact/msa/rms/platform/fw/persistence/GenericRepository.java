@@ -56,7 +56,7 @@ public interface GenericRepository<T> {
      * コンフィグ定数
      */
     static class ApiType {
-        public static final String PROP_NAME ="persistence.apiType";
+        public static final String PROP_NAME ="rms.persistence.apiType";
         public static final String FILE = "file";
         public static final String JPA = "jpa";
     }

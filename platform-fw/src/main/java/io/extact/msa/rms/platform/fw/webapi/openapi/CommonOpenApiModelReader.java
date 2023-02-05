@@ -89,7 +89,7 @@ public class CommonOpenApiModelReader implements OASModelReader {
                                 .ref("#/components/schemas/" + errorInfoClass.getSimpleName())));
     }
 
-    @ConfigProperties(prefix = "openapi.info")
+    @ConfigProperties(prefix = "rms.openapi")
     @Dependent
     public static class InfoConfig {
         private String title;

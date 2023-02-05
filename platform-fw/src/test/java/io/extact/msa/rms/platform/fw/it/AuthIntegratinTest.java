@@ -46,7 +46,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
  */
 // for JWT Auth
 @HelidonTest(resetPerTest = true)
-@AddConfig(key = "jwt.privatekey.path", value = "/jwt.key")
+@AddConfig(key = "rms.jwt.privatekey.path", value = "/jwt.key")
 @AddConfig(key = "mp.jwt.verify.publickey.location", value = "/jwt.pub.key")
 @AddConfig(key = "security.jersey.enabled", value = "true") // 認証認可ON
 // for RESTResrouce Beans
@@ -62,7 +62,7 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
 // for RESTClient Beans
 @AddBean(Server1ApiProxy.class)
 @AddBean(Server1ApiRestClient.class)
-@AddConfig(key = "configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.fw.external.PropagateJwtClientHeadersFactory")
+@AddConfig(key = "rms.cdi.configuredCdi.register.0.class", value = "io.extact.msa.rms.platform.fw.external.PropagateJwtClientHeadersFactory")
 @AddConfig(key = "web-api/mp-rest/url", value = "http://localhost:7001") // for REST Client
 @ExtendWith(JulToSLF4DelegateExtension.class)
 public class AuthIntegratinTest {

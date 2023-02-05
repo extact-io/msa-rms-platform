@@ -16,9 +16,8 @@ import jakarta.interceptor.InvocationContext;
 
 import org.eclipse.microprofile.config.Config;
 
-import lombok.extern.slf4j.Slf4j;
-
 import io.extact.msa.rms.platform.core.debug.DebugSleepInterceptor.DebugSleep;
+import lombok.extern.slf4j.Slf4j;
 
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
@@ -31,8 +30,8 @@ public class DebugSleepInterceptor {
 
     @Inject
     public DebugSleepInterceptor(Config config) {
-        this.sleepEnable = config.getOptionalValue("debug.sleep.enable", boolean.class).orElse(false);
-        this.sleepTime = config.getOptionalValue("debug.sleep.time", int.class).orElse(0);
+        this.sleepEnable = config.getOptionalValue("rms.debug.sleep.enable", boolean.class).orElse(false);
+        this.sleepTime = config.getOptionalValue("rms.debug.sleep.time", int.class).orElse(0);
     }
 
     @AroundInvoke

@@ -10,6 +10,19 @@
 	<packaging>pom</packaging>
 	<name>msa-rms-platform</name>
 	<description>Platform Parent POM</description>
+	<repositories>
+		<repository>
+			<id>github</id>
+			<name>GitHub Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/extact-io/msa-rms-parent</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<modules>
 		<module>test-lib</module>
 		<module>platform-core</module>

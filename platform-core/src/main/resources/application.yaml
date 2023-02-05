@@ -1,8 +1,7 @@
 config_ordinal: 30
-json.format:
-  date: yyyyMMdd
-  dateTime: yyyyMMdd HH:mm
-
+#----------------------------------
+# MicroProfile Configurations
+#----------------------------------
 mp.openapi.schema:
   java.time.LocalDateTime : |
     {
@@ -13,34 +12,37 @@ mp.openapi.schema:
       "description": "日時型フォーマット"
     }
 
-jwt:
-  privatekey.path: /path/to/your/file
-  claim:
-    issuer: your-application
-    issuedAt: -1            # 発行日時[-1はnow()]（秒単位）
-    exp: 60                 # 有効期限（分単位）
-  filter:
-    enable: true
-
-healthCheck:
-  memoryHealth:
-    enable: off
-    memoryLiveness:
-      name: memory-health-check-liveness
-      method: rel # rel:相対評価 or abs:絶対評価
-      threshold: 90
-    memoryReadiness:
-      name: memory-health-check-readiness
-  otherChecks:
-    #- io.extact.msa.rms.platform.core.health.SimpleReadnessCheck
-    #- io.extact.msa.rms.platform.core.health.ReadinessOfOutboundServersHealthCheck
-    #- io.extact.msa.rms.platform.core.health.DbReadinessCheck
-  #dbReadnessCheck.pingSql: "SELECT 1"
-
-
-exception.mapper.unhandle.404:
-  paths: ["/favicon", "/static"]
-
-debug.sleep:
-  enable: false
-  time: 500 # unit:msec
+#----------------------------------
+# Applications Configurations
+#----------------------------------
+rms:
+  jaxrs:
+    converter.format:
+      date: yyyyMMdd
+      dateTime: yyyyMMdd HH:mm
+    mapper.ignore.404:
+      paths: ["/favicon", "/static"]
+  jwt:
+    privatekey.path: /path/to/your/file
+    claim:
+      issuer: your-application
+      issuedAt: -1            # 発行日時[-1はnow()]（秒単位）
+      exp: 60                 # 有効期限（分単位）
+  healthCheck:
+    memoryHealth:
+      enable: off
+      memoryLiveness:
+        name: memory-health-check-liveness
+        method: rel # rel:相対評価 or abs:絶対評価
+        threshold: 90
+      memoryReadiness:
+        name: memory-health-check-readiness
+    otherChecks:
+      #- io.extact.msa.rms.platform.core.health.SimpleReadnessCheck
+      #- io.extact.msa.rms.platform.core.health.ReadinessOfOutboundServersHealthCheck
+      #- io.extact.msa.rms.platform.core.health.DbReadinessCheck
+    dbReadnessCheck.pingSql: "SELECT 1"
+  debug:
+    sleep:
+      enable: false
+      time: 500 # unit:msec

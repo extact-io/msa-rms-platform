@@ -4,6 +4,14 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.net.URI;
 
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.glassfish.jersey.ext.cdi1x.internal.CdiComponentProvider;
 import org.glassfish.jersey.microprofile.restclient.RestClientExtension;
@@ -21,13 +29,6 @@ import io.helidon.microprofile.tests.junit5.AddConfig;
 import io.helidon.microprofile.tests.junit5.AddExtension;
 import io.helidon.microprofile.tests.junit5.DisableDiscovery;
 import io.helidon.microprofile.tests.junit5.HelidonTest;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
 
 @HelidonTest(resetPerTest = true)
 @DisableDiscovery
@@ -39,7 +40,7 @@ import jakarta.ws.rs.core.MediaType;
 @ExtendWith(JulToSLF4DelegateExtension.class)
 @AddConfig(key = "server.port", value = "7001")
 // ---- following specific parts
-@AddConfig(key = "healthCheck.memoryHealth.enable", value = "on")
+@AddConfig(key = "rms.healthCheck.memoryHealth.enable", value = "on")
 @AddExtension(HealthCdiExtension.class)
 @AddExtension(HealthCheckRegisterExtension.class)
 @AddBean(MemoryHealthCheckConfig.class)
@@ -103,8 +104,8 @@ class MemoryHealthCheckTest {
     }
 
     @Test
-    @AddConfig(key = "healthCheck.memoryHealth.memoryLiveness.method", value = "abs")
-    @AddConfig(key = "healthCheck.memoryHealth.memoryLiveness.threshold", value = "100000")
+    @AddConfig(key = "rms.healthCheck.memoryHealth.memoryLiveness.method", value = "abs")
+    @AddConfig(key = "rms.healthCheck.memoryHealth.memoryLiveness.threshold", value = "100000")
     void testResetEvaluateMethod() {
 
         JsonObject root = endPoint.getLiveness();

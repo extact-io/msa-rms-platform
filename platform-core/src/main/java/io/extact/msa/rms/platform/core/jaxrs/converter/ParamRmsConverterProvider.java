@@ -20,8 +20,8 @@ public class ParamRmsConverterProvider implements ParamConverterProvider {
 
     public ParamRmsConverterProvider() {
         // ConfigがなぜかInjectで取得できないためProvierクラス経由で取得
-        this.datePattern = ConfigProvider.getConfig().getValue("json.format.date", String.class);
-        this.dateTimePattern = ConfigProvider.getConfig().getValue("json.format.dateTime", String.class);
+        this.datePattern = ConfigProvider.getConfig().getValue("rms.jaxrs.converter.format.date", String.class);
+        this.dateTimePattern = ConfigProvider.getConfig().getValue("rms.jaxrs.converter.format.dateTime", String.class);
     }
 
     @SuppressWarnings("unchecked")

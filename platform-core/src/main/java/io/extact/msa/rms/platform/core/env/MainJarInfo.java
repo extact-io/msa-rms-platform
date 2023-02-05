@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainJarInfo {
 
     private static final String UNKNOWN_INFORMATION = "-";
-    private static final String MAIN_JAR_PROP = "main.manifest.jar";
+    private static final String MAIN_JAR_PROP = "rms.env.main.jar";
 
     static final MainJarInfo UNKNOWN_INFO;
     static {

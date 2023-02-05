@@ -4,7 +4,7 @@ import org.eclipse.microprofile.config.Config;
 
 public class JwtConfig {
 
-    public static final String CONFIG_PREFIX = "jwt.";
+    public static final String CONFIG_PREFIX = "rms.jwt.";
     public static final String BEARER_MARK = "Bearer";
     private static final long ISSUED_AT_NOW = -1;
 

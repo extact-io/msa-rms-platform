@@ -25,8 +25,8 @@ class ApplicationInitializerCdiExtensionTest {
     @DisableDiscovery
     @AddExtension(ApplicationInitializerCdiExtension.class)
     // main/resources/application.yamlの本物の設定が干渉しないようにつぶしておく
-    @AddConfig(key = "configuredCdi.alias.remote.class", value = "io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtensionTest$TestConfigBean1")
-    @AddConfig(key = "configuredCdi.register.alias", value = "remote")
+    @AddConfig(key = "rms.cdi.configuredCdi.alias.remote.class", value = "io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtensionTest$TestConfigBean1")
+    @AddConfig(key = "rms.cdi.configuredCdi.register.alias", value = "remote")
     @Nested
     class EnabledIfRuntimeConfigTest {
         @Test
@@ -88,11 +88,11 @@ class ApplicationInitializerCdiExtensionTest {
     class RegisterConfiguredBeansTest {
 
         @Test
-        @AddConfig(key = "configuredCdi.alias.remote.class", value = "io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtensionTest$TestConfigBean1")
-        @AddConfig(key = "configuredCdi.register.0.alias", value = "remote")
-        @AddConfig(key = "configuredCdi.register.1.class", value = "io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtensionTest$TestConfigBean2")
-        @AddConfig(key = "configuredCdi.register.1.scope", value = "application")
-        @AddConfig(key = "configuredCdi.register.1.id", value = "test")
+        @AddConfig(key = "rms.cdi.configuredCdi.alias.remote.class", value = "io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtensionTest$TestConfigBean1")
+        @AddConfig(key = "rms.cdi.configuredCdi.register.0.alias", value = "remote")
+        @AddConfig(key = "rms.cdi.configuredCdi.register.1.class", value = "io.extact.msa.rms.platform.core.extension.ApplicationInitializerCdiExtensionTest$TestConfigBean2")
+        @AddConfig(key = "rms.cdi.configuredCdi.register.1.scope", value = "application")
+        @AddConfig(key = "rms.cdi.configuredCdi.register.1.id", value = "test")
         void testRegister01() {
 
             TestConfigBean1 bean1 = CDI.current().select(TestConfigBean1.class).get();

@@ -35,8 +35,8 @@ public class SecretKeyFile {
 
     public String readFile() throws IOException {
         @Cleanup BufferedReader buff = null;
-        buff = tryToOpenFromFilePath(path);
-        buff = buff != null ? buff : tryToOpenFromResourcePath(path); // fallback to resource
+        buff = tryOpenFromFilePath(path);
+        buff = buff != null ? buff : tryOpenFromResourcePath(path); // fallback to resource
 
         var pem = new StringBuilder();
         String line;
@@ -46,7 +46,7 @@ public class SecretKeyFile {
         return pem.toString();
     }
 
-    private BufferedReader tryToOpenFromFilePath(String path) {
+    private BufferedReader tryOpenFromFilePath(String path) {
         try {
             return Files.newBufferedReader(Paths.get(path));
         } catch (IOException e) {
@@ -54,7 +54,7 @@ public class SecretKeyFile {
         }
     }
 
-    private BufferedReader tryToOpenFromResourcePath(String path) {
+    private BufferedReader tryOpenFromResourcePath(String path) {
         InputStream is = this.getClass().getResourceAsStream(path);
         return new BufferedReader(new InputStreamReader(is));
     }

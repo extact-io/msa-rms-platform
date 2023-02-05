@@ -27,10 +27,10 @@ import io.helidon.microprofile.tests.junit5.HelidonTest;
  * ・fileTypeがpermanentだがマスタデータ格納フォルダが存在しない場合に初期データが投入される
  */
 @HelidonTest
-@AddConfig(key = "persistence.apiType", value = "file")
-@AddConfig(key = "csv.type", value = "permanent")
-@AddConfig(key = "csv.type.permanent.init.data", value = "./target/test-classes/preparetor-test")
-@AddConfig(key = "csv.permanent.directory", value = InitFilePreparatorExtensionTest.TEST_PERMANENT_DIR)
+@AddConfig(key = "rms.persistence.apiType", value = "file")
+@AddConfig(key = "rms.persistence.csv.type", value = "permanent")
+@AddConfig(key = "rms.persistence.csv.type.permanent.init.data", value = "./target/test-classes/preparetor-test")
+@AddConfig(key = "rms.persistence.csv.permanent.directory", value = InitFilePreparatorExtensionTest.TEST_PERMANENT_DIR)
 @AddBean(InitFilePreparatorNotifire.class)
 @ExtendWith(JulToSLF4DelegateExtension.class)
 class InitFilePreparatorExtensionTest {

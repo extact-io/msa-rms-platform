@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class MainJarInfoTest {
 
-    private static final String MAIN_MANIFEST_JAR_PROP = "main.manifest.jar";
+    private static final String MAIN_MANIFEST_JAR_PROP = "rms.env.main.jar";
 
     @AfterEach
     void teardown( ) {

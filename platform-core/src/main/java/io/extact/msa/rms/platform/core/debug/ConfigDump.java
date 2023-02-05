@@ -6,33 +6,38 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.microprofile.config.Config;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+
+import org.eclipse.microprofile.config.Config;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Dump out Config at startup.
  * Filter the output by setting configdump.filters as below.
  * <pre>
- * configdump:
- *   filter-enable: true
- *   filters:
- *     - filter: server
- *     - filter: security
+ * rms.debug:
+ *   configdump:
+ *     enable: false
+ *     filter:
+ *       enable: true
+ *       pattern:
+ *         - security
+ *         - env.rms
  * </pre>
  */
 @ApplicationScoped
 @Slf4j(topic = "ConfigDump")
-public class MpConfigDump {
+public class ConfigDump {
 
+    private static final String CONFIG_PREFIX = "rms.debug.configdump";
     private Config config;
 
     @Inject
-    public MpConfigDump(Config config) {
+    public ConfigDump(Config config) {
         this.config = config;
     }
     void onInialized(@Observes @Initialized(ApplicationScoped.class) Object event) {
@@ -40,11 +45,15 @@ public class MpConfigDump {
         if (!log.isDebugEnabled()) {
             return;
         }
+        if (!config.getOptionalValue(CONFIG_PREFIX + ".enable", Boolean.class).orElse(false)) {
+            return;
+        }
 
         List<String> filters = new ArrayList<>();
-        if (config.getOptionalValue("configdump.filter-enable", Boolean.class).orElse(false)) {
+        if (config.getOptionalValue(CONFIG_PREFIX + ".filter.enable", Boolean.class).orElse(true)) {
             filters = StreamSupport.stream(config.getPropertyNames().spliterator(), false)
-                    .filter(s -> s.startsWith("configdump.filters"))
+                    .filter(s -> s.startsWith(CONFIG_PREFIX + ".filter.pattern"))
+                    .filter(s -> config.getOptionalValue(s, String.class).isPresent())
                     .map(s -> config.getValue(s, String.class))
                     .toList();
         }

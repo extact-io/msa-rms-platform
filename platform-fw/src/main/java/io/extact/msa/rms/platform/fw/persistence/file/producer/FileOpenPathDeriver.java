@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class FileOpenPathDeriver {
 
     // config value is "permanent" or "temporary"
-    private static final String FILE_TYPE_CONFIG_KEY = "csv.type";
+    private static final String FILE_TYPE_CONFIG_KEY = "rms.persistence.csv.type";
     // samaple key is "csv-file.permanent.file_name.reservation = reservation.csv"
-    private static final String FILE_NAME_CONFIG_KEY_FORMAT = "csv.%s.fileName.%s";
+    private static final String FILE_NAME_CONFIG_KEY_FORMAT = "rms.persistence.csv.%s.fileName.%s";
 
     private Config config;
 

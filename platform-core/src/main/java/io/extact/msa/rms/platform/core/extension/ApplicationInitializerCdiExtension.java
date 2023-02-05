@@ -17,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApplicationInitializerCdiExtension implements Extension {
 
-    private static final String CDI_REGISTER_CONFIG_KEY = "configuredCdi.register";
-    private static final String CDI_ALIAS_CONFIG_KEY = "configuredCdi.alias";
+    private static final String CDI_REGISTER_CONFIG_KEY = "rms.cdi.configuredCdi.register";
+    private static final String CDI_ALIAS_CONFIG_KEY = "rms.cdi.configuredCdi.alias";
 
     void enabledIfRuntimeConfig(@Observes @WithAnnotations(EnabledIfRuntimeConfig.class) ProcessAnnotatedType<?> event) {
         EnabledIfRuntimeConfig annotation = event.getAnnotatedType().getAnnotation(EnabledIfRuntimeConfig.class);

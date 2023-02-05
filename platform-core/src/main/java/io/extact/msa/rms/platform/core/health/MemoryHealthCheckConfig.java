@@ -2,12 +2,12 @@ package io.extact.msa.rms.platform.core.health;
 
 import java.util.Optional;
 
+import jakarta.enterprise.context.Dependent;
+
 import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import jakarta.enterprise.context.Dependent;
-
-@ConfigProperties(prefix = "healthCheck.memoryHealth")
+@ConfigProperties(prefix = "rms.healthCheck.memoryHealth")
 @Dependent
 public class MemoryHealthCheckConfig {
     private Optional<Boolean> enable;

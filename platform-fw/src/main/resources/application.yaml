@@ -1,3 +1,21 @@
+
+config_ordinal: 50
+#----------------------------------
+# Applications Configurations
+#----------------------------------
+rms:
+  openapi:
+    title: 未設定
+    contact:
+      name: 課外活動
+      url: https://extact-io.github.io/rms-website/
+
+#----------------------------------
+# Helidon Configurations
+#----------------------------------
+tracing:
+  enabled: false ## デフォルトでOFFで有効化したい場合に起動パラメータもしくは環境変数で有効化設定をする
+
 #TODO: Remove when https://github.com/helidon-io/helidon/issues/5537 is fixed
 security:
   providers:
@@ -7,13 +25,3 @@ security:
           sign-token:
             outbound:
               - name: "propagate-token"
-
-config_ordinal: 50
-
-openapi.info:
-  title: 未設定
-  contact:
-    name: 課外活動
-    url: https://extact-io.github.io/rms-website/
-#  for Helidon
-tracing.enabled: false ## デフォルトでOFFで有効化したい場合に起動パラメータもしくは環境変数で有効化設定をする
