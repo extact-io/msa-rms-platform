@@ -1,0 +1,12 @@
+# Workflow - mvn verify for All
+name: verify-workflow
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+  call-verify:
+    uses: extact-io/msa-rms-parent/.github/workflows/verify-app-job.yml@main
+    with:
+      repo: ${{ github.repository }}

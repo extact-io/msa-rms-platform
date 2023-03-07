@@ -1,0 +1,27 @@
+# Workflow - Verify and Deploy to GitHub Packages
+name: verify-to-deploy-workflow
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+    inputs:
+      skip-verify:
+        description: skip verify?
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  call-verify:
+    if: ${{ !inputs.skip-verify }}
+    uses: extact-io/msa-rms-parent/.github/workflows/verify-app-job.yml@main
+    with:
+      repo: ${{ github.repository }}
+
+  call-deploy:
+    if: ${{ !failure() }}
+    needs: call-verify
+    uses: extact-io/msa-rms-parent/.github/workflows/deploy-job.yml@main
+    with:
+      repo: ${{ github.repository }}
+    secrets: inherit
