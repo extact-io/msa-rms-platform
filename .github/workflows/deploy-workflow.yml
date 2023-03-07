@@ -1,4 +1,4 @@
-# Workflow - Publish to GitHub Packages
+# Workflow - build, publish jar to GitHub Packages for this repository(msa-rms-platform)
 name: deploy-workflow
 
 on:
@@ -7,6 +7,7 @@ on:
 
 jobs:
   execute:
-    uses: extact-io/msa-rms-parent/.github/workflows/deploy-job-external.yml@main
+    uses: extact-io/msa-rms-parent/.github/workflows/deploy-job.yml@main
+    with:
+      repo: ${{ github.repository }}
     secrets: inherit
-
