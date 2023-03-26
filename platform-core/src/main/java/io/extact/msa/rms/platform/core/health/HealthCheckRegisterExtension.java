@@ -32,7 +32,7 @@ public class HealthCheckRegisterExtension implements Extension {
         }
 
         // for otherChecks config
-        var otherChecks = config.getOptionalValues("healthCheck.otherChecks", Class.class).orElse(Collections.emptyList());
+        var otherChecks = config.getOptionalValues("rms.healthCheck.otherChecks", Class.class).orElse(Collections.emptyList());
         otherChecks.forEach(otherCheck -> {
             @SuppressWarnings("unchecked")
             AnnotatedTypeConfigurator<?> configurator = event.addAnnotatedType(otherCheck, otherCheck.getSimpleName());

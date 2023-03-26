@@ -41,7 +41,7 @@ rms:
       #- io.extact.msa.rms.platform.core.health.SimpleReadnessCheck
       #- io.extact.msa.rms.platform.core.health.ReadinessOfOutboundServersHealthCheck
       #- io.extact.msa.rms.platform.core.health.DbReadinessCheck
-    dbReadnessCheck.pingSql: "SELECT 1"
+    dbReadinessCheck.pingSql: "SELECT 1"
   debug:
     sleep:
       enable: false
