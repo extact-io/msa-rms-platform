@@ -11,6 +11,13 @@ rms:
       url: https://extact-io.github.io/rms-website/
 
 #----------------------------------
+# MicroProfile Configurations
+#----------------------------------
+mp:
+  openapi:
+    scan.exclude.classes: io.extact.msa.rms.platform.fw.webapi.ManagementResource
+
+#----------------------------------
 # Helidon Configurations
 #----------------------------------
 tracing:
