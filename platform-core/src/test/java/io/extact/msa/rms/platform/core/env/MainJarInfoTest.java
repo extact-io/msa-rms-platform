@@ -6,6 +6,7 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 class MainJarInfoTest {
 
@@ -21,6 +22,7 @@ class MainJarInfoTest {
      * Eclipseでこのテストを実行する場合は/rms-platform/testdata/environment-test-normal.zipを
      * 外部jarとして追加する（mavenから実行する場合はpomに設定を入れているので特別な手順は不要）
      */
+    @EnabledIfSystemProperty(named = "mvn.cli.profile", matches = "on") // execute cli only
     @Test
     void tetGetMainJarInfo() {
 

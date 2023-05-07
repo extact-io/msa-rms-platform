@@ -5,6 +5,7 @@ import java.util.logging.LogManager;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import io.extact.msa.rms.platform.core.env.Environment;
+import io.extact.msa.rms.platform.core.util.RmsSlf4jBridgeHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,10 +22,20 @@ public class BootstrapWebApi {
     }
 
     private static void startContainer(String[] args) throws Exception {
-        // java.util.loggingの出力をSLF4Jへdelegate
+        
+        // JULのLogger設定を削除
         LogManager.getLogManager().reset();
         SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
+        
+        // SLF4Jに委譲するJULのLoggerブリッジを設定
+        RmsSlf4jBridgeHandler.installToJul();
+        
+        // CDIコンテナの起動
+        // -- 注意 ---
+        // Main.mainの中で"/logging.properties"を読み直してRootLoggerのHandlerをクリアしている
+        // よって"/logging.properties"を配置するとセットしたSLF4JBridgeHandlerがクリアされSLF4Jに
+        // に委譲されなくのるので注意すること
+        // -----------
         io.helidon.microprofile.cdi.Main.main(args);
     }
 
