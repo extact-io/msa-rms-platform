@@ -8,8 +8,8 @@ rms:
   openapi:
     title: 未設定
     contact:
-      name: 課外活動
-      url: https://extact-io.github.io/rms-website/
+      name: extact.io
+      url: https://github.com/extact-io
 
 #----------------------------------
 # MicroProfile Configurations
