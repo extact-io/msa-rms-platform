@@ -8,9 +8,12 @@ import jakarta.interceptor.InvocationContext;
 
 import org.eclipse.microprofile.config.Config;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
 @NetworkConnectionErrorAware
+@Slf4j
 public class NetworkConnectionErrorInterceptor {
     
     private Config config;
@@ -33,6 +36,7 @@ public class NetworkConnectionErrorInterceptor {
                 }
             }
             var message = makeErrorInfoMessage(ic);
+            log.warn(message, original);
             throw new NetworkConnectionException(message, original);
         }
     }
