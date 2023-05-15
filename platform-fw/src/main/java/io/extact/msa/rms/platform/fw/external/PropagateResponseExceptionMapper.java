@@ -18,11 +18,13 @@ import org.eclipse.microprofile.rest.client.ext.ResponseExceptionMapper;
 
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException;
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException.CauseType;
+import io.extact.msa.rms.platform.fw.exception.interceptor.NetworkConnectionException;
+import io.extact.msa.rms.platform.fw.exception.RmsServiceUnavailableException;
+import io.extact.msa.rms.platform.fw.exception.RmsSystemException;
+import io.extact.msa.rms.platform.fw.exception.RmsValidationException;
 import io.extact.msa.rms.platform.fw.exception.webapi.GenericErrorInfo;
 import io.extact.msa.rms.platform.fw.exception.webapi.SecurityConstraintException;
 import io.extact.msa.rms.platform.fw.exception.webapi.ValidationErrorInfoImpl;
-import io.extact.msa.rms.platform.fw.exception.RmsSystemException;
-import io.extact.msa.rms.platform.fw.exception.RmsValidationException;
 
 @Priority(Priorities.USER)
 @ConstrainedTo(RuntimeType.CLIENT)
@@ -45,6 +47,8 @@ public class PropagateResponseExceptionMapper implements ResponseExceptionMapper
         rmsExceptionMappers.put(BusinessFlowException.class.getSimpleName(), this::toBusinessFlowException);
         rmsExceptionMappers.put(RmsValidationException.class.getSimpleName(), this::toRmsValidationException);
         rmsExceptionMappers.put(ConstraintViolationException.class.getSimpleName(), this::toRmsValidationException);
+        rmsExceptionMappers.put(RmsServiceUnavailableException.class.getSimpleName(), this::toRmsServiceUnavailableException);
+        rmsExceptionMappers.put(NetworkConnectionException.class.getSimpleName(), this::toRmsServiceUnavailableException);
         rmsExceptionMappers.put(RmsSystemException.class.getSimpleName(), this::toRmsSystemException);
         otherExceptionMapper = this::toOtherExceptionMapping;
     }
@@ -76,6 +80,11 @@ public class PropagateResponseExceptionMapper implements ResponseExceptionMapper
     private RmsValidationException toRmsValidationException(Response response) {
         var errorInfo = response.readEntity(ValidationErrorInfoImpl.class);
         return new RmsValidationException(errorInfo.getErrorMessage(), errorInfo);
+    }
+    
+    private RmsServiceUnavailableException toRmsServiceUnavailableException(Response response) {
+        var errorInfo = response.readEntity(GenericErrorInfo.class);
+        return new RmsServiceUnavailableException(errorInfo.getErrorMessage());
     }
 
     private RmsSystemException toRmsSystemException(Response response) {

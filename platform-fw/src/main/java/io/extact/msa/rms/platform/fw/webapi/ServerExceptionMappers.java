@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
 
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException;
+import io.extact.msa.rms.platform.fw.exception.RmsServiceUnavailableException;
 import io.extact.msa.rms.platform.fw.exception.RmsSystemException;
 import io.extact.msa.rms.platform.fw.exception.RmsValidationException;
 import io.extact.msa.rms.platform.fw.exception.webapi.GenericErrorInfo;
@@ -37,15 +38,12 @@ public class ServerExceptionMappers {
         @Override
         public Response toResponse(BusinessFlowException exception) {
             log.warn("exception occured. message={}", exception.getMessage());
-
             var errorInfo = new GenericErrorInfo(exception.getCauseType().name(), exception.getMessage());
-
             Status status = switch (exception.getCauseType()) {
                 case NOT_FOUND          -> Status.NOT_FOUND;
                 case DUPRICATE, REFERED -> Status.CONFLICT;
                 case FORBIDDEN          -> Status.FORBIDDEN;
             };
-
             return Response
                         .status(status)
                         .header(RMS_EXCEPTION_HEAD, BusinessFlowException.class.getSimpleName())
@@ -65,6 +63,23 @@ public class ServerExceptionMappers {
                     .status(Response.Status.BAD_REQUEST)
                     .header(RMS_EXCEPTION_HEAD, exception.getClass().getSimpleName())
                     .entity(exception.getErrorInfo())
+                    .build();
+        }
+    }
+
+    // Provider Class
+    // also includes NetworkCommunicationException
+    @Produces(MediaType.APPLICATION_JSON)
+    public static class RmsServiceUnavailableExceptionMapper implements ExceptionMapper<RmsServiceUnavailableException> {
+
+        @Override
+        public Response toResponse(RmsServiceUnavailableException exception) {
+            log.warn("exception occured. message={}", exception.getMessage());
+            var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
+            return Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .header(RMS_EXCEPTION_HEAD, exception.getClass().getSimpleName())
+                    .entity(errorInfo)
                     .build();
         }
     }

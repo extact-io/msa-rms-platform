@@ -4,6 +4,7 @@ config_ordinal: 50
 # Applications Configurations
 #----------------------------------
 rms:
+  app.name: 未設定
   openapi:
     title: 未設定
     contact:
