@@ -4,7 +4,7 @@
 		<groupId>io.extact</groupId>
 		<artifactId>msa-rms-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../msa-rms-parent/pom.xml</relativePath>
+		<relativePath>../msa-rms/pom.xml</relativePath>
 	</parent>
 	<artifactId>msa-rms-platform</artifactId>
 	<packaging>pom</packaging>
