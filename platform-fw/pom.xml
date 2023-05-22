@@ -72,6 +72,11 @@
 			<artifactId>microprofile-rest-client-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile.fault-tolerance</groupId>
+			<artifactId>microprofile-fault-tolerance-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- for BootstrapWebApi -->
 		<dependency>
 			<groupId>io.helidon.microprofile.cdi</groupId>

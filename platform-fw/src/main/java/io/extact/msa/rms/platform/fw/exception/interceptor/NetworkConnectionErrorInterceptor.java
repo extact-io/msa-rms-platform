@@ -8,10 +8,11 @@ import jakarta.interceptor.InvocationContext;
 
 import org.eclipse.microprofile.config.Config;
 
+import io.extact.msa.rms.platform.fw.exception.RmsNetworkConnectionException;
 import lombok.extern.slf4j.Slf4j;
 
 @Interceptor
-@Priority(Interceptor.Priority.APPLICATION)
+@Priority(Interceptor.Priority.PLATFORM_AFTER + 1000)
 @NetworkConnectionErrorAware
 @Slf4j
 public class NetworkConnectionErrorInterceptor {
@@ -37,7 +38,7 @@ public class NetworkConnectionErrorInterceptor {
             }
             var message = makeErrorInfoMessage(ic);
             log.warn(message, original);
-            throw new NetworkConnectionException(message, original);
+            throw new RmsNetworkConnectionException(message, original);
         }
     }
 

@@ -14,11 +14,12 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.faulttolerance.exceptions.CircuitBreakerOpenException;
 import org.eclipse.microprofile.rest.client.ext.ResponseExceptionMapper;
 
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException;
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException.CauseType;
-import io.extact.msa.rms.platform.fw.exception.interceptor.NetworkConnectionException;
+import io.extact.msa.rms.platform.fw.exception.RmsNetworkConnectionException;
 import io.extact.msa.rms.platform.fw.exception.RmsServiceUnavailableException;
 import io.extact.msa.rms.platform.fw.exception.RmsSystemException;
 import io.extact.msa.rms.platform.fw.exception.RmsValidationException;
@@ -48,7 +49,8 @@ public class PropagateResponseExceptionMapper implements ResponseExceptionMapper
         rmsExceptionMappers.put(RmsValidationException.class.getSimpleName(), this::toRmsValidationException);
         rmsExceptionMappers.put(ConstraintViolationException.class.getSimpleName(), this::toRmsValidationException);
         rmsExceptionMappers.put(RmsServiceUnavailableException.class.getSimpleName(), this::toRmsServiceUnavailableException);
-        rmsExceptionMappers.put(NetworkConnectionException.class.getSimpleName(), this::toRmsServiceUnavailableException);
+        rmsExceptionMappers.put(RmsNetworkConnectionException.class.getSimpleName(), this::toRmsServiceUnavailableException);
+        rmsExceptionMappers.put(CircuitBreakerOpenException.class.getSimpleName(), this::toRmsServiceUnavailableException);
         rmsExceptionMappers.put(RmsSystemException.class.getSimpleName(), this::toRmsSystemException);
         otherExceptionMapper = this::toOtherExceptionMapping;
     }

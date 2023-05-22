@@ -13,6 +13,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.ExceptionMapper;
 
+import org.eclipse.microprofile.faulttolerance.exceptions.CircuitBreakerOpenException;
+
 import io.extact.msa.rms.platform.fw.exception.BusinessFlowException;
 import io.extact.msa.rms.platform.fw.exception.RmsServiceUnavailableException;
 import io.extact.msa.rms.platform.fw.exception.RmsSystemException;
@@ -75,6 +77,23 @@ public class ServerExceptionMappers {
         @Override
         public Response toResponse(RmsServiceUnavailableException exception) {
             log.warn("exception occured. message={}", exception.getMessage());
+            var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
+            return Response
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .header(RMS_EXCEPTION_HEAD, exception.getClass().getSimpleName())
+                    .entity(errorInfo)
+                    .build();
+        }
+    }
+
+    // Provider Class
+    // also includes NetworkCommunicationException
+    @Produces(MediaType.APPLICATION_JSON)
+    public static class CircuitBreakerOpenExceptionMapper implements ExceptionMapper<CircuitBreakerOpenException> {
+
+        @Override
+        public Response toResponse(CircuitBreakerOpenException exception) {
+            log.warn("exception occured. message=%s".formatted(exception.getMessage()), exception);
             var errorInfo = new GenericErrorInfo(exception.getClass().getSimpleName(), exception.getMessage());
             return Response
                     .status(Response.Status.SERVICE_UNAVAILABLE)
